@@ -1,11 +1,9 @@
 package com.example.booking_movie_ticket.repository;
 
+import com.example.booking_movie_ticket.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.booking_movie_ticket.entity.User;
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    boolean findByUsername(String username);
+public interface RoomRepository extends JpaRepository<Room, Long> {
 }

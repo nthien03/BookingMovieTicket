@@ -5,10 +5,9 @@ import java.util.List;
 import com.example.booking_movie_ticket.exception.IdInvalidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.booking_movie_ticket.domain.User;
+import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.dto.request.UserRequest;
 import com.example.booking_movie_ticket.service.UserService;
 

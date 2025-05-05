@@ -50,9 +50,9 @@ public class FileController {
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         );
         boolean isValid = allowedExtensions.stream().anyMatch(item -> fileName.toLowerCase().endsWith(item));
-if(!isValid){
-    throw new AppException(ErrorCode.FILE_INVALID_TYPE);
-}
+        if (!isValid) {
+            throw new AppException(ErrorCode.FILE_INVALID_TYPE);
+        }
         // create a directory if not exist
         this.fileService.createDirectory(baseURI + folder);
 
@@ -61,6 +61,7 @@ if(!isValid){
 
         FileUploadResponse response = new FileUploadResponse(uploadFile, Instant.now());
         return ApiResponse.<FileUploadResponse>builder()
+                .code(1000)
                 .data(response).build();
 
     }

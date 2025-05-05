@@ -1,12 +1,12 @@
 package com.example.booking_movie_ticket.dto.request;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public class UserRequest {
-    private String name;
-    private String email;
+@Setter
+public class LoginRequest {
+    private String username;
     private String password;
-
 
 }

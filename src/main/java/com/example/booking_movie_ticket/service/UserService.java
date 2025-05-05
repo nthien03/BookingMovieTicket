@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.booking_movie_ticket.domain.User;
+import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.dto.request.UserRequest;
 import com.example.booking_movie_ticket.repository.UserRepository;
 
@@ -36,6 +36,11 @@ public class UserService {
     public User getUserById(long userId) {
 
         return this.userRepository.findById(userId).orElse(null);
+    }
+
+    public User getUserByUsername(String username) {
+
+        return this.userRepository.fina(userId).orElse(null);
     }
 
     public List<User> getUsers() {

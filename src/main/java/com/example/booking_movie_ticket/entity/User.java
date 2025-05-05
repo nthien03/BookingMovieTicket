@@ -1,4 +1,4 @@
-package com.example.booking_movie_ticket.domain;
+package com.example.booking_movie_ticket.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
