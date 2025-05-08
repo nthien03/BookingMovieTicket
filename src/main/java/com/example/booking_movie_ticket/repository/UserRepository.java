@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.example.booking_movie_ticket.entity.User;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    boolean findByUsername(String username);
+    Optional<User> findByUsername(String username);
 }

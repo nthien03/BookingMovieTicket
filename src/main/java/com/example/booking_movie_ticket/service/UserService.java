@@ -2,6 +2,8 @@ package com.example.booking_movie_ticket.service;
 
 import java.util.List;
 
+import com.example.booking_movie_ticket.exception.AppException;
+import com.example.booking_movie_ticket.exception.ErrorCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +42,7 @@ public class UserService {
 
     public User getUserByUsername(String username) {
 
-        return this.userRepository.fina(userId).orElse(null);
+        return this.userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXISTED));
     }
 
     public List<User> getUsers() {

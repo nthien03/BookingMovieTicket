@@ -28,9 +28,11 @@ public class ScheduleController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(1000,
-                        "Schedule created successfully",
-                        scheduleService.createSchedule(request)));
+                .body(ApiResponse.<ScheduleCreateResponse>builder()
+                        .code(1000)
+                        .message("Schedule created successfully")
+                        .data(scheduleService.createSchedule(request)).build()
+                );
     }
     @GetMapping
     public List<Schedule> getAllSchedules() {

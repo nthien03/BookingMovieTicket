@@ -27,9 +27,11 @@ public class MovieController {
     public ResponseEntity<ApiResponse<MovieCreateResponse>> createMovie(@Valid @RequestBody MovieRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(1000,
-                        "Movie created successfully",
-                        movieService.createMovie(request)));
+                .body(ApiResponse.<MovieCreateResponse>builder()
+                        .code(1000)
+                        .message("Movie created successfully")
+                        .data(movieService.createMovie(request)).build()
+                );
     }
     @GetMapping
     public List<MovieListResponse> getAllMovies() {
