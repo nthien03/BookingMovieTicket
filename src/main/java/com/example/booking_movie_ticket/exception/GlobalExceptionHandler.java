@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +61,7 @@ public class GlobalExceptionHandler {
         ApiResponse<Void> apiResponse = new ApiResponse<>();
         apiResponse.setCode(ErrorCode.DATA_VALIDATION_ERROR.getCode());
         apiResponse.setMessage(ErrorCode.DATA_VALIDATION_ERROR.getMessage());
-        apiResponse.setError(errors.size() > 1 ? errors: errors.get(0));
+        apiResponse.setError(errors.size() > 1 ? errors : errors.get(0));
         return ResponseEntity.status(ErrorCode.DATA_VALIDATION_ERROR.getStatusCode()).body(apiResponse);
         //        String enumKey = exception.getFieldError().getDefaultMessage();
 //        ErrorCode errorCode = ErrorCode.valueOf(enumKey);
@@ -73,11 +74,33 @@ public class GlobalExceptionHandler {
         //List<String> errors = exception.getBindingResult().getFieldErrors().stream()
     }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        log.error("Exception: ", ex);
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.INVALID_DATA_TYPE.getCode());
+        apiResponse.setMessage(ErrorCode.INVALID_DATA_TYPE.getMessage());
+
+        return ResponseEntity.status(ErrorCode.INVALID_DATA_TYPE.getStatusCode()).body(apiResponse);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+        log.error("Exception: ", ex);
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.DATA_VALIDATION_ERROR.getCode());
+        apiResponse.setMessage(ErrorCode.DATA_VALIDATION_ERROR.getMessage());
+        apiResponse.setError(ex.getMessage());
+        return ResponseEntity.status(ErrorCode.DATA_VALIDATION_ERROR.getStatusCode()).body(apiResponse);
+    }
+
     @ExceptionHandler(value = {
             UsernameNotFoundException.class,
             BadCredentialsException.class
     })
-    public ResponseEntity<ApiResponse> handle(Exception exception) {
+    public ResponseEntity<ApiResponse> handleBadCredentialsException(Exception exception) {
         log.error("Exception: ", exception);
 
         ApiResponse apiResponse = new ApiResponse();

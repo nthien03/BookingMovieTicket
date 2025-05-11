@@ -10,7 +10,7 @@ public class MovieMapper {
     public static Movie toEntity(MovieRequest request) {
         return Movie.builder()
                 .movieName(request.getMovieName())
-                .actors(request.getActors())
+                .actor(request.getActors())
                 .director(request.getDirector())
                 .description(request.getDescription())
                 .poster(request.getPoster())

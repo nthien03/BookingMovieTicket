@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-private final JwtEncoder jwtEncoder;
+    private final JwtEncoder jwtEncoder;
     public static final MacAlgorithm JWT_ALGORITHM = MacAlgorithm.HS512;
 
     @Value("${jwt.base64-secret}")

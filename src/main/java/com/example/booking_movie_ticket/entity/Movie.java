@@ -1,7 +1,6 @@
 package com.example.booking_movie_ticket.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -23,7 +22,7 @@ public class Movie {
 
     private String director;
 
-    private String actors;
+    private String actor;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
@@ -45,5 +44,7 @@ public class Movie {
     private Instant createdAt;
 
     private  Instant updatedAt;
+
+
 
 }

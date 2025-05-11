@@ -26,7 +26,7 @@ public class MovieServiceImpl implements MovieService {
     public MovieCreateResponse createMovie(MovieRequest request) {
         Movie movie = Movie.builder()
                 .movieName(request.getMovieName())
-                .actors(request.getActors())
+                .actor(request.getActors())
                 .director(request.getDirector())
                 .description(request.getDescription())
                 .poster(request.getPoster())

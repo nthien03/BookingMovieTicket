@@ -1,0 +1,20 @@
+package com.example.booking_movie_ticket.service;
+
+import com.example.booking_movie_ticket.dto.request.ActorRequest;
+import com.example.booking_movie_ticket.dto.request.MovieRequest;
+import com.example.booking_movie_ticket.dto.response.ActorCreateResponse;
+import com.example.booking_movie_ticket.dto.response.ActorResponse;
+import com.example.booking_movie_ticket.dto.response.ActorUpdateResponse;
+import com.example.booking_movie_ticket.dto.response.PageResponse;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+public interface ActorService {
+    ActorCreateResponse createActor(ActorRequest request);
+    PageResponse getAllActors(Pageable pageable);
+    ActorResponse getActorById(long actorId);
+    void updateActor(long actorId, ActorRequest request);
+    ActorResponse changeStatus(long actorId);
+
+}
