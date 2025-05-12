@@ -5,10 +5,13 @@ import com.example.booking_movie_ticket.dto.response.ActorCreateResponse;
 import com.example.booking_movie_ticket.dto.response.ActorResponse;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
+import com.example.booking_movie_ticket.entity.Actor;
 import com.example.booking_movie_ticket.service.ActorService;
+import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,17 +41,30 @@ public class ActorController {
                 );
     }
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<PageResponse>>getAllActors(
-            @RequestParam(value = "current", defaultValue = "1") int current,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+//    @GetMapping
+//    public ResponseEntity<ApiResponse<PageResponse>>getAllActors(
+//            @RequestParam(value = "current", defaultValue = "1") int current,
+//            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+//
+//        Pageable pageable = PageRequest.of(current- 1, pageSize);
+//
+//        return ResponseEntity.ok().body(
+//                ApiResponse.<PageResponse>builder()
+//                        .code(1000)
+//                        .data(actorService.getAllActors(pageable))
+//                        .build());
+//    }
 
-        Pageable pageable = PageRequest.of(current- 1, pageSize);
+@GetMapping
+    public ResponseEntity<ApiResponse<PageResponse>>getAllActors(
+        @Filter Specification<Actor> spec,
+        Pageable pageable) {
+
 
         return ResponseEntity.ok().body(
                 ApiResponse.<PageResponse>builder()
                         .code(1000)
-                        .data(actorService.getAllActors(pageable))
+                        .data(actorService.getAllActors(spec, pageable))
                         .build());
     }
 

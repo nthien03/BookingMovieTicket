@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,8 +42,8 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public PageResponse getAllActors(Pageable pageable) {
-        Page<Actor> actorPage = this.actorRepository.findAll(pageable);
+    public PageResponse getAllActors(Specification<Actor> spec, Pageable pageable) {
+        Page<Actor> actorPage = this.actorRepository.findAll(spec, pageable);
         List<ActorResponse> actorList = actorPage.getContent()
                 .stream()
                 .map(actor -> ActorResponse.builder()
@@ -55,8 +56,8 @@ public class ActorServiceImpl implements ActorService {
                 ).toList();
 
         MetaPage metaPage = new MetaPage();
-        metaPage.setPage(actorPage.getNumber());
-        metaPage.setPageSize(actorPage.getSize());
+        metaPage.setPage(pageable.getPageNumber() + 1);
+        metaPage.setPageSize(pageable.getPageSize());
         metaPage.setPages(actorPage.getTotalPages());
         metaPage.setTotal(actorPage.getTotalElements());
         return PageResponse.builder()
@@ -64,6 +65,31 @@ public class ActorServiceImpl implements ActorService {
                 .result(actorList)
                 .build();
     }
+//
+//    @Override
+//    public PageResponse getAllActors(Pageable pageable) {
+//        Page<Actor> actorPage = this.actorRepository.findAll(pageable);
+//        List<ActorResponse> actorList = actorPage.getContent()
+//                .stream()
+//                .map(actor -> ActorResponse.builder()
+//                        .id(actor.getId())
+//                        .fullName(actor.getFullName())
+//                        .dateOfBirth(actor.getDateOfBirth())
+//                        .nationality(actor.getNationality())
+//                        .status(actor.getStatus())
+//                        .build()
+//                ).toList();
+//
+//        MetaPage metaPage = new MetaPage();
+//        metaPage.setPage(actorPage.getNumber() + 1);
+//        metaPage.setPageSize(actorPage.getSize());
+//        metaPage.setPages(actorPage.getTotalPages());
+//        metaPage.setTotal(actorPage.getTotalElements());
+//        return PageResponse.builder()
+//                .meta(metaPage)
+//                .result(actorList)
+//                .build();
+//    }
 
     @Override
     public ActorResponse getActorById(long actorId) {
