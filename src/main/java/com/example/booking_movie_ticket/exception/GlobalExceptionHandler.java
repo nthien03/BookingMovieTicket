@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -94,6 +95,17 @@ public class GlobalExceptionHandler {
         apiResponse.setMessage(ErrorCode.DATA_VALIDATION_ERROR.getMessage());
         apiResponse.setError(ex.getMessage());
         return ResponseEntity.status(ErrorCode.DATA_VALIDATION_ERROR.getStatusCode()).body(apiResponse);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
+        log.error("Exception: ", ex);
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(404);
+        apiResponse.setMessage("Không tìm thấy tài nguyên yêu cầu.");
+        apiResponse.setError(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
 
     @ExceptionHandler(value = {

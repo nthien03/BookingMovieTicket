@@ -7,9 +7,9 @@ import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.entity.Actor;
 import com.example.booking_movie_ticket.service.ActorService;
+import com.example.booking_movie_ticket.util.annotation.ApiMessage;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/actors")
+@RequestMapping("/api/v1/actors")
 public class ActorController {
 
     private final ActorService actorService;
@@ -55,10 +55,10 @@ public class ActorController {
 //                        .build());
 //    }
 
-@GetMapping
-    public ResponseEntity<ApiResponse<PageResponse>>getAllActors(
-        @Filter Specification<Actor> spec,
-        Pageable pageable) {
+    @GetMapping
+    public ResponseEntity<ApiResponse<PageResponse>> getAllActors(
+            @Filter Specification<Actor> spec,
+            Pageable pageable) {
 
 
         return ResponseEntity.ok().body(

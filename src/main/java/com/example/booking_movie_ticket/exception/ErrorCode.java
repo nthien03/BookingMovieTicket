@@ -7,12 +7,28 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum ErrorCode {
 
-    USER_EXISTED(1001, "User existed", HttpStatus.BAD_REQUEST),
+    USER_EXISTED(1001, "Người dùng đã tồn tại", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1002, "User không tồn tại", HttpStatus.NOT_FOUND),
-    USERNAME_BLANK(1002, "username không được bỏ trống", HttpStatus.BAD_REQUEST),
-    PASSWORD_BLANK(1003, "password không được bỏ trống", HttpStatus.BAD_REQUEST),
-    INVALID_LOGIN_CREDENTIALS_ERROR(1004, "Thông tin đăng nhập không chính xác", HttpStatus.BAD_REQUEST),
-    INVALID_TOKEN_ERROR(1005, "Token không hợp lệ (hết hạn, sai định dạng, hoặc thiếu quyền truy cập)", HttpStatus.UNAUTHORIZED),
+    USERNAME_EXISTED(1003, "Tên đăng nhập đã tồn tại ", HttpStatus.BAD_REQUEST),
+    EMAIL_EXISTED(1004, "Email này đã được sử dụng", HttpStatus.BAD_REQUEST),
+    PHONE_NUMBER_EXISTED(1005, "Số điện thoại đã được đăng ký", HttpStatus.BAD_REQUEST),
+    DATA_UNIQUE(1006, "Thông tin đăng ký đã tồn tại", HttpStatus.BAD_REQUEST),
+
+    USERNAME_BLANK(1007, "Tên đăng nhập không được bỏ trống", HttpStatus.BAD_REQUEST),
+    FULL_NAME_BLANK(1008, "Họ tên không được bỏ trống", HttpStatus.BAD_REQUEST),
+    EMAIL_BLANK(1009, "Email không được bỏ trống", HttpStatus.BAD_REQUEST),
+    PHONE_NUMBER_BLANK(1010, "Số điện thoại không được bỏ trống", HttpStatus.BAD_REQUEST),
+    PASSWORD_BLANK(1011, "Mật khẩu không được bỏ trống", HttpStatus.BAD_REQUEST),
+    BIRTHDAY_BLANK(1012, "Ngày sinh không được bỏ trống", HttpStatus.BAD_REQUEST),
+    USERNAME_LENGTH_INVALID(1013, "Tên đăng nhập phải từ 4 ký tự trở lên", HttpStatus.BAD_REQUEST),
+    PASSWORD_LENGTH_INVALID(1014, "Mật khẩu phải từ 6 ký tự trở lên", HttpStatus.BAD_REQUEST),
+    EMAIL_INVALID(1015, "Email không hợp lệ", HttpStatus.BAD_REQUEST),
+    PHONE_NUMBER_INVALID(1016, "Số điện thoại không hợp lệ", HttpStatus.BAD_REQUEST),
+    BIRTHDAY_INVALID(1017, "Ngày sinh không hợp lệ", HttpStatus.BAD_REQUEST),
+
+    INVALID_LOGIN_CREDENTIALS_ERROR(1090, "Thông tin đăng nhập không chính xác", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN_ERROR(1091, "Token không hợp lệ (hết hạn, sai định dạng, hoặc thiếu quyền truy cập)", HttpStatus.UNAUTHORIZED),
+
     FILE_EMPTY(2001, "Vui lòng chọn file để tải lên", HttpStatus.BAD_REQUEST),
     FILE_INVALID_TYPE(2002, "Định dạng file không được hỗ trợ. Chỉ chấp nhận các định dạng: JPG, PNG, JPEG", HttpStatus.BAD_REQUEST),
 
