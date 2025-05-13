@@ -4,7 +4,9 @@ package com.example.booking_movie_ticket.controller;
 import com.example.booking_movie_ticket.dto.request.LoginRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.LoginResponse;
+import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.service.JwtService;
+import com.example.booking_movie_ticket.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,10 +24,12 @@ public class AuthController {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtService jwtService;
+    private final UserService userService;
 
-    public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, JwtService jwtService) {
+    public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, JwtService jwtService, UserService userService) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtService = jwtService;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -42,10 +46,18 @@ public class AuthController {
         String access_token = this.jwtService.createToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        User currentUser = this.userService.getUserByUsername(loginRequest.getUsername());
+
+        LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(
+                currentUser.getId(),
+                currentUser.getUsername(),
+                currentUser.getFullName());
+
         return ResponseEntity.ok().body(
                 ApiResponse.<LoginResponse>builder()
                         .code(1000)
                         .message("Call api success")
-                        .data(new LoginResponse(access_token)).build());
+                        .data(new LoginResponse(access_token, userLogin))
+                        .build());
     }
 }

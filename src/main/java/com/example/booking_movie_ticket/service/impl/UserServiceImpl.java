@@ -105,6 +105,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        return this.userRepository.findByUsername(username)
+                .orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXISTED));
+    }
+
+    @Override
     public void updateAUser(long userId, UserCreateRequest request) {
 
     }

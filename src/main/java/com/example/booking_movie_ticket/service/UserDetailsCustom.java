@@ -15,9 +15,9 @@ import java.util.Collections;
 @Component("userDetailsService")
 public class UserDetailsCustom implements UserDetailsService {
 
-    private final UserServicev1 userService;
+    private final UserService userService;
 
-    public UserDetailsCustom(UserServicev1 userService) {
+    public UserDetailsCustom(UserService userService) {
         this.userService = userService;
     }
 
