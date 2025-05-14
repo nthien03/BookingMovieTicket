@@ -42,6 +42,8 @@ public class User {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
 
 

@@ -111,7 +111,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateAUser(long userId, UserCreateRequest request) {
+    public void updateUser(long userId, UserCreateRequest request) {
 
+    }
+
+    @Override
+    public void updateUserToken(String token, String username) {
+        User user = this.getUserByUsername(username);
+        user.setRefreshToken(token);
+        this.userRepository.save(user);
+    }
+
+    @Override
+    public User getUserByRefreshTokenAndUsername(String refreshToken, String username) {
+        return this.userRepository.findByRefreshTokenAndUsername(refreshToken, username)
+                .orElseThrow(() -> new AppException(ErrorCode.INVALID_REFRESH_TOKEN));
     }
 }

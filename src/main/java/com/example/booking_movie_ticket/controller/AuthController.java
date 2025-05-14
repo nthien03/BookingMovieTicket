@@ -7,20 +7,25 @@ import com.example.booking_movie_ticket.dto.response.LoginResponse;
 import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.service.JwtService;
 import com.example.booking_movie_ticket.service.UserService;
+import com.example.booking_movie_ticket.util.SecurityUtil;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
+
+    @Value("${jwt.refresh-token-validity-in-seconds}")
+    private long refreshTokenExpiration;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtService jwtService;
@@ -42,8 +47,7 @@ public class AuthController {
         Authentication authentication =
                 authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        // create a token
-        String access_token = this.jwtService.createToken(authentication);
+        // set thong tin ng dung dang nhap vao context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User currentUser = this.userService.getUserByUsername(loginRequest.getUsername());
@@ -53,11 +57,104 @@ public class AuthController {
                 currentUser.getUsername(),
                 currentUser.getFullName());
 
-        return ResponseEntity.ok().body(
-                ApiResponse.<LoginResponse>builder()
-                        .code(1000)
-                        .message("Call api success")
-                        .data(new LoginResponse(access_token, userLogin))
-                        .build());
+        // create access token
+        String access_token = this.jwtService.createAccessToken(authentication.getName(), userLogin);
+
+        LoginResponse loginResponse = new LoginResponse(access_token, userLogin);
+
+        // create refresh token
+        String refresh_token = this.jwtService.createRefreshToken(loginRequest.getUsername(), loginResponse);
+
+        // update user
+        this.userService.updateUserToken(refresh_token, loginRequest.getUsername());
+        ResponseCookie responseCookie = ResponseCookie
+                .from("refresh_token", refresh_token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration)
+                .build();
+
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(
+                        ApiResponse.<LoginResponse>builder()
+                                .code(1000)
+                                .message("Call api success")
+                                .data(loginResponse)
+                                .build()
+                );
     }
+
+    @GetMapping("/account")
+    public ResponseEntity<ApiResponse<LoginResponse.UserLogin>> getAccount() {
+        String username = SecurityUtil.getCurrentUserLogin().orElse("");
+        User currentUser = this.userService.getUserByUsername(username);
+
+        LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(
+                currentUser.getId(),
+                currentUser.getUsername(),
+                currentUser.getFullName());
+
+        return ResponseEntity.ok(
+                ApiResponse.<LoginResponse.UserLogin>builder()
+                        .code(1000)
+                        .data(userLogin)
+                        .build()
+        );
+    }
+
+    @GetMapping("refresh")
+    public ResponseEntity<ApiResponse<LoginResponse>> getRefreshToken(
+            @CookieValue(name = "refresh_token") String refresh_token) {
+
+        // check valid
+        Jwt decodedToken = jwtService.checkValidRefreshToken(refresh_token);
+
+        String username = decodedToken.getSubject();
+
+        // check user by token and username
+
+        User currentUser = userService.getUserByRefreshTokenAndUsername(refresh_token, username);
+
+        LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(
+                currentUser.getId(),
+                currentUser.getUsername(),
+                currentUser.getFullName());
+
+        // create access token
+        String access_token = this.jwtService.createAccessToken(username, userLogin);
+
+        LoginResponse loginResponse = new LoginResponse(access_token, userLogin);
+
+        // create refresh token
+        String new_refresh_token = this.jwtService.createRefreshToken(username, loginResponse);
+
+        // update user
+        this.userService.updateUserToken(new_refresh_token, username);
+
+        //set cookies
+        ResponseCookie responseCookie = ResponseCookie
+                .from("refresh_token", new_refresh_token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration)
+                .build();
+
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(
+                        ApiResponse.<LoginResponse>builder()
+                                .code(1000)
+                                .message("Call api success")
+                                .data(loginResponse)
+                                .build()
+                );
+    }
+
 }

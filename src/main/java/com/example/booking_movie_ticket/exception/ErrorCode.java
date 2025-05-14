@@ -28,6 +28,9 @@ public enum ErrorCode {
 
     INVALID_LOGIN_CREDENTIALS_ERROR(1090, "Thông tin đăng nhập không chính xác", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN_ERROR(1091, "Token không hợp lệ (hết hạn, sai định dạng, hoặc thiếu quyền truy cập)", HttpStatus.UNAUTHORIZED),
+    REFRESH_TOKEN_NOT_PRESENT_IN_COOKIES(1092, "Refresh token không có trong cookies", HttpStatus.UNAUTHORIZED),
+    INVALID_REFRESH_TOKEN(1093, "Refresh token không hợp lệ", HttpStatus.BAD_REQUEST),
+
 
     FILE_EMPTY(2001, "Vui lòng chọn file để tải lên", HttpStatus.BAD_REQUEST),
     FILE_INVALID_TYPE(2002, "Định dạng file không được hỗ trợ. Chỉ chấp nhận các định dạng: JPG, PNG, JPEG", HttpStatus.BAD_REQUEST),

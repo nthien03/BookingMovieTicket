@@ -12,9 +12,18 @@ import org.springframework.data.jpa.domain.Specification;
 
 public interface UserService {
     UserCreateResponse createUser(UserCreateRequest request);
+
     PageResponse getAllUsers(Specification<User> spec, Pageable pageable);
+
     UserDetailResponse getUserById(long userId);
+
     User getUserByUsername(String username);
-    void updateAUser(long userId, UserCreateRequest request);
+
+    void updateUser(long userId, UserCreateRequest request);
+
+    void updateUserToken(String token, String username);
+
+    User getUserByRefreshTokenAndUsername(String refreshToken, String username);
+
 
 }

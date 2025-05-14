@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -122,9 +123,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ErrorCode.INVALID_LOGIN_CREDENTIALS_ERROR.getStatusCode()).body(apiResponse);
     }
 
+    // Xử lý lỗi thiếu cookie
+    @ExceptionHandler(MissingRequestCookieException.class)
+    public ResponseEntity<ApiResponse> handleMissingCookieException(MissingRequestCookieException ex) {
+        log.error("Exception: ", ex);
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.REFRESH_TOKEN_NOT_PRESENT_IN_COOKIES.getCode());
+        apiResponse.setMessage(ErrorCode.REFRESH_TOKEN_NOT_PRESENT_IN_COOKIES.getMessage());
+
+        return ResponseEntity.status(ErrorCode.REFRESH_TOKEN_NOT_PRESENT_IN_COOKIES.getStatusCode()).body(apiResponse);
+    }
+
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+
 
 }
