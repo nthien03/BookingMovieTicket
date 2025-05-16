@@ -5,6 +5,8 @@ import com.example.booking_movie_ticket.dto.request.LoginRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.LoginResponse;
 import com.example.booking_movie_ticket.entity.User;
+import com.example.booking_movie_ticket.exception.AppException;
+import com.example.booking_movie_ticket.exception.ErrorCode;
 import com.example.booking_movie_ticket.service.JwtService;
 import com.example.booking_movie_ticket.service.UserService;
 import com.example.booking_movie_ticket.util.SecurityUtil;
@@ -89,7 +91,7 @@ public class AuthController {
     }
 
     @GetMapping("/account")
-    public ResponseEntity<ApiResponse<LoginResponse.UserLogin>> getAccount() {
+    public ResponseEntity<ApiResponse<LoginResponse.UserGetAccount>> getAccount() {
         String username = SecurityUtil.getCurrentUserLogin().orElse("");
         User currentUser = this.userService.getUserByUsername(username);
 
@@ -99,9 +101,9 @@ public class AuthController {
                 currentUser.getFullName());
 
         return ResponseEntity.ok(
-                ApiResponse.<LoginResponse.UserLogin>builder()
+                ApiResponse.<LoginResponse.UserGetAccount>builder()
                         .code(1000)
-                        .data(userLogin)
+                        .data(new LoginResponse.UserGetAccount(userLogin))
                         .build()
         );
     }
@@ -157,4 +159,32 @@ public class AuthController {
                 );
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout() {
+
+        String username = SecurityUtil.getCurrentUserLogin()
+                .orElseThrow(() -> new AppException(ErrorCode.INVALID_TOKEN_ERROR));
+
+        // update refresh token = null
+        this.userService.updateUserToken(null, username);
+
+        // remove refresh token in cookie
+
+        ResponseCookie deleteCookie = ResponseCookie
+                .from("refresh_token", null)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .body(ApiResponse.<Void>builder()
+                        .code(1000)
+                        .message("Logout thành công!")
+                        .build());
+
+
+    }
 }

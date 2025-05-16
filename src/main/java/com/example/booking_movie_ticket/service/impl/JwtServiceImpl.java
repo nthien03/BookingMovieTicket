@@ -72,7 +72,7 @@ public class JwtServiceImpl implements JwtService {
                 .issuedAt(now)
                 .expiresAt(validity)
                 .subject(usernamme)
-                .claim("user", loginResponse.getUserLogin())
+                .claim("user", loginResponse.getUser())
                 .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
 
