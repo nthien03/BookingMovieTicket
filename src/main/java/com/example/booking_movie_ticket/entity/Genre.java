@@ -1,8 +1,11 @@
 package com.example.booking_movie_ticket.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 
 @Getter
@@ -24,6 +27,10 @@ public class Genre {
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "genres")
+    @JsonIgnore
+    private List<Movie> movies;
 
     private Boolean status;
 

@@ -1,9 +1,12 @@
 package com.example.booking_movie_ticket.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,23 +21,39 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String movieName;
 
+    @NotNull
     private String director;
 
-    private String actor;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinTable(name = "movie_actor",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    private List<Actor> actors;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
 
+    @NotNull
     private String poster;
 
+    @NotNull
     private String trailerUrl;
 
+    @NotNull
     private Integer duration;
 
-    private String genre;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinTable(name = "movie_genre",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> genres;
 
+    @NotNull
     private Instant releaseDate;
 
     private Integer ageRestriction;
@@ -43,8 +62,7 @@ public class Movie {
 
     private Instant createdAt;
 
-    private  Instant updatedAt;
-
+    private Instant updatedAt;
 
 
 }

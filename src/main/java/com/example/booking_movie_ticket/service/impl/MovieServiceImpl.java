@@ -24,23 +24,24 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieCreateResponse createMovie(MovieRequest request) {
-        Movie movie = Movie.builder()
-                .movieName(request.getMovieName())
-                .actor(request.getActors())
-                .director(request.getDirector())
-                .description(request.getDescription())
-                .poster(request.getPoster())
-                .trailerUrl(request.getTrailerUrl())
-                .duration(request.getDuration())
-                .genre(request.getGenre())
-                .releaseDate(request.getReleaseDate())
-                .ageRestriction(request.getAgeRestriction())
-                .status(true)
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now())
-                .build();
-        Movie savedMovie = movieRepository.save(movie);
-        return new MovieCreateResponse(savedMovie.getId());
+//        Movie movie = Movie.builder()
+//                .movieName(request.getMovieName())
+//                .actor(request.getActors())
+//                .director(request.getDirector())
+//                .description(request.getDescription())
+//                .poster(request.getPoster())
+//                .trailerUrl(request.getTrailerUrl())
+//                .duration(request.getDuration())
+//                .genre(request.getGenre())
+//                .releaseDate(request.getReleaseDate())
+//                .ageRestriction(request.getAgeRestriction())
+//                .status(true)
+//                .createdAt(Instant.now())
+//                .updatedAt(Instant.now())
+//                .build();
+//        Movie savedMovie = movieRepository.save(movie);
+//        return new MovieCreateResponse(savedMovie.getId());
+        return null;
     }
 
     @Override
