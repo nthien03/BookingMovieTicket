@@ -1,6 +1,7 @@
 package com.example.booking_movie_ticket.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -18,6 +19,7 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
 
     @Column(columnDefinition = "MEDIUMTEXT")

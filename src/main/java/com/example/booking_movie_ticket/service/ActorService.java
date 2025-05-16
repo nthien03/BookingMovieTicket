@@ -12,7 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 public interface ActorService {
     ActorCreateResponse createActor(ActorRequest request);
     //PageResponse getAllActors(Pageable pageable);
-    PageResponse getAllActors(Specification<Actor> specification, Pageable pageable);
+    PageResponse getAllActors(Specification<Actor> spec, Pageable pageable);
     ActorResponse getActorById(long actorId);
     void updateActor(long actorId, ActorRequest request);
     ActorResponse changeStatus(long actorId);

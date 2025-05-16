@@ -1,7 +1,8 @@
-package com.example.booking_movie_ticket.service;
+package com.example.booking_movie_ticket.config;
 
 import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.exception.AppException;
+import com.example.booking_movie_ticket.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

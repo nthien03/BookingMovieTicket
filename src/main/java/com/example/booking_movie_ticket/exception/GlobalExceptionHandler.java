@@ -1,6 +1,7 @@
 package com.example.booking_movie_ticket.exception;
 
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse> handleValidationExceptions(MethodArgumentNotValidException exception) {
 
         final List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
@@ -76,7 +77,7 @@ public class GlobalExceptionHandler {
         //List<String> errors = exception.getBindingResult().getFieldErrors().stream()
     }
 
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         log.error("Exception: ", ex);
 
@@ -87,18 +88,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ErrorCode.INVALID_DATA_TYPE.getStatusCode()).body(apiResponse);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+    @ExceptionHandler(value = {
+            IllegalArgumentException.class,
+            ConstraintViolationException.class
+    })
+    public ResponseEntity<ApiResponse> handleIllegalArgumentException(Exception ex) {
         log.error("Exception: ", ex);
 
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(ErrorCode.DATA_VALIDATION_ERROR.getCode());
         apiResponse.setMessage(ErrorCode.DATA_VALIDATION_ERROR.getMessage());
-        apiResponse.setError(ex.getMessage());
+        //apiResponse.setError(ex.getMessage());
         return ResponseEntity.status(ErrorCode.DATA_VALIDATION_ERROR.getStatusCode()).body(apiResponse);
     }
 
-    @ExceptionHandler(NoResourceFoundException.class)
+    @ExceptionHandler(value = NoResourceFoundException.class)
     public ResponseEntity<ApiResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
         log.error("Exception: ", ex);
 
@@ -124,7 +128,7 @@ public class GlobalExceptionHandler {
     }
 
     // Xử lý lỗi thiếu cookie
-    @ExceptionHandler(MissingRequestCookieException.class)
+    @ExceptionHandler(value = MissingRequestCookieException.class)
     public ResponseEntity<ApiResponse> handleMissingCookieException(MissingRequestCookieException ex) {
         log.error("Exception: ", ex);
 

@@ -47,6 +47,7 @@ public enum ErrorCode {
     ACTOR_NOT_EXISTED(3101, "Diễn viên không tồn tại", HttpStatus.NOT_FOUND),
 
     GENRE_NAME_BLANK(3200, "Tên thể loại không được bỏ trống", HttpStatus.BAD_REQUEST),
+    GENRE_NOT_EXISTED(3201, "Thể loại không tồn tại", HttpStatus.NOT_FOUND),
 
     ROOM_NOT_FREE(4000,"Phòng chiếu đã được sử dụng vào thời gian bạn chọn", HttpStatus.BAD_REQUEST),
 

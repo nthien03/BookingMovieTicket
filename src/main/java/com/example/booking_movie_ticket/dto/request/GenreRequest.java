@@ -8,5 +8,5 @@ public class GenreRequest {
     @NotBlank(message = "GENRE_NAME_BLANK")
     private String name;
     private String description;
-
+    private Boolean status;
 }

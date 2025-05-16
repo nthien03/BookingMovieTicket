@@ -7,7 +7,6 @@ import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.entity.Actor;
 import com.example.booking_movie_ticket.service.ActorService;
-import com.example.booking_movie_ticket.util.annotation.ApiMessage;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/v1/actors")
