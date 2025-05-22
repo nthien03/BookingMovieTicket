@@ -30,6 +30,9 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public long createGenre(GenreRequest request) {
+        if (genreRepository.existsByName(request.getName())) {
+            throw new AppException(ErrorCode.GENRE_EXISTED);
+        }
         Genre genre = Genre.builder()
                 .name(request.getName())
                 .description(request.getDescription())
@@ -79,6 +82,9 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void updateGenre(long genreId, GenreRequest request) {
+        if (genreRepository.existsByName(request.getName())) {
+            throw new AppException(ErrorCode.GENRE_EXISTED);
+        }
         Genre genre = this.genreRepository.findById(genreId).orElseThrow(() -> new AppException(ErrorCode.GENRE_NOT_EXISTED));
         genre.setName(request.getName());
         genre.setDescription(request.getDescription());

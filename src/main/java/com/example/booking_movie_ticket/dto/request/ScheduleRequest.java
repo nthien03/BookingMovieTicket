@@ -9,21 +9,25 @@ import java.time.Instant;
 @Getter
 @Setter
 public class ScheduleRequest {
-    @NotNull(message = "Movie ID cannot be null")
+    @NotNull
     private Long movieId;
 
-    @NotNull(message = "Room ID cannot be null")
+    @NotNull
     private Long roomId;
 
-    @NotNull(message = "Date cannot be null")
+    @NotNull
     private Instant date;
 
-    @NotNull(message = "Start time cannot be null")
+    @NotNull
     private Instant startTime;
 
-    @NotNull(message = "End time cannot be null")
+    @NotNull
+    private Integer bufferTime;
+
+    @NotNull
     private Instant endTime;
 
-    @NotNull(message = "Status cannot be null")
+    @NotNull
     private Boolean status;
+
 }

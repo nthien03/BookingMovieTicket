@@ -42,15 +42,19 @@ public enum ErrorCode {
     TRAILER_URL_BLANK(3004, "TrailerUrl không được bỏ trống ", HttpStatus.BAD_REQUEST),
     GENRE_BLANK(3005, "Thể loại không được bỏ trống ", HttpStatus.BAD_REQUEST),
     RELEASE_DATE_INVALID(3006, "Ngày khởi chiếu không hợp lệ", HttpStatus.BAD_REQUEST),
+    MOVIE_NAME_EXISTED(3007, "Tên phim này đã tồn tại", HttpStatus.BAD_REQUEST),
+    MOVIE_NOT_EXISTED(3008, "Phim không tồn tại", HttpStatus.NOT_FOUND),
+
 
     ACTOR_NAME_BLANK(3100, "Tên diễn viên không được bỏ trống", HttpStatus.BAD_REQUEST),
     ACTOR_NOT_EXISTED(3101, "Diễn viên không tồn tại", HttpStatus.NOT_FOUND),
 
     GENRE_NAME_BLANK(3200, "Tên thể loại không được bỏ trống", HttpStatus.BAD_REQUEST),
     GENRE_NOT_EXISTED(3201, "Thể loại không tồn tại", HttpStatus.NOT_FOUND),
+    GENRE_EXISTED(3202, "Thể loại này đã tồn tại", HttpStatus.BAD_REQUEST),
 
     ROOM_NOT_FREE(4000,"Phòng chiếu đã được sử dụng vào thời gian bạn chọn", HttpStatus.BAD_REQUEST),
-
+    ROOM_EXISTED(4001, "Phòng chiếu đã tồn tại", HttpStatus.BAD_REQUEST),
 
     DATA_VALIDATION_ERROR(9000, "Dữ liệu đầu vào không hợp lệ", HttpStatus.BAD_REQUEST),
     INVALID_DATA_TYPE(9001, "Dữ liệu truyền vào không đúng kiểu dữ liệu", HttpStatus.BAD_REQUEST),

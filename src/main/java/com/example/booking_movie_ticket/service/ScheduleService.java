@@ -1,11 +1,10 @@
 package com.example.booking_movie_ticket.service;
 
 import com.example.booking_movie_ticket.dto.request.ScheduleRequest;
-import com.example.booking_movie_ticket.dto.response.MovieListResponse;
-import com.example.booking_movie_ticket.dto.response.ScheduleCreateResponse;
-import com.example.booking_movie_ticket.dto.response.ScheduleListResponse;
+import com.example.booking_movie_ticket.dto.response.*;
 import com.example.booking_movie_ticket.entity.Schedule;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface ScheduleService {
@@ -15,4 +14,9 @@ public interface ScheduleService {
     List<Schedule> getAllSchedules();
 
     ScheduleCreateResponse createSchedule(ScheduleRequest request);
+
+    List<RoomListResponse> getAvailableRooms(Instant startTime, Instant endTime);
+
+    List<ScheduleByMovieResponse> getSchedulesByMovieId(Long movieId);
+
 }

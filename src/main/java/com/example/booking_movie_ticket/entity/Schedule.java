@@ -1,6 +1,7 @@
 package com.example.booking_movie_ticket.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
@@ -26,9 +27,19 @@ public class Schedule {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
+    @NotNull
     private Instant date;
+
+    @NotNull
     private Instant startTime;
+
+    @NotNull
     private Instant endTime;
-    private Boolean status;
+
+    @NotNull
+    private Integer bufferTime;
+
+    @Builder.Default
+    private Boolean status = true;
 }
 

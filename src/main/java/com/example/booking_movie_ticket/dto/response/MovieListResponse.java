@@ -1,11 +1,10 @@
 package com.example.booking_movie_ticket.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
+
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor

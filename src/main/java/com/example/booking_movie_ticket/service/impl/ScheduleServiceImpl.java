@@ -1,7 +1,8 @@
 package com.example.booking_movie_ticket.service.impl;
 
 import com.example.booking_movie_ticket.dto.request.ScheduleRequest;
-import com.example.booking_movie_ticket.dto.response.MovieListResponse;
+import com.example.booking_movie_ticket.dto.response.RoomListResponse;
+import com.example.booking_movie_ticket.dto.response.ScheduleByMovieResponse;
 import com.example.booking_movie_ticket.dto.response.ScheduleCreateResponse;
 import com.example.booking_movie_ticket.dto.response.ScheduleListResponse;
 import com.example.booking_movie_ticket.entity.Movie;
@@ -16,6 +17,7 @@ import com.example.booking_movie_ticket.repository.ScheduleRepository;
 import com.example.booking_movie_ticket.service.ScheduleService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,7 +76,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleCreateResponse createSchedule(ScheduleRequest request) {
         Movie movie = movieRepository.findById(request.getMovieId())
-                .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + request.getMovieId()));
+                .orElseThrow(() -> new AppException(ErrorCode.MOVIE_NOT_EXISTED));
 
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + request.getRoomId()));
@@ -97,6 +99,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .room(room)
                 .date(request.getDate())
                 .startTime(request.getStartTime())
+                .bufferTime(request.getBufferTime())
                 .endTime(request.getEndTime())
                 .status(request.getStatus())
                 .build();
@@ -105,4 +108,33 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         return new ScheduleCreateResponse(savedSchedule.getId());
     }
+
+
+    @Override
+    public List<RoomListResponse> getAvailableRooms(Instant startTime, Instant endTime) {
+        List<Long> busyRoomIds = scheduleRepository.findRoomIdsWithScheduleConflict(startTime, endTime);
+
+        List<Room> availableRooms = busyRoomIds.isEmpty()
+                ? roomRepository.findAll()
+                : roomRepository.findByIdNotIn(busyRoomIds);
+
+        return availableRooms.stream()
+                .map(room -> new RoomListResponse(room.getId(), room.getRoomName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ScheduleByMovieResponse> getSchedulesByMovieId(Long movieId) {
+        List<Schedule> schedules = scheduleRepository.findByMovieIdAndStatusTrue(movieId);
+        return schedules.stream().map(schedule -> new ScheduleByMovieResponse(
+                schedule.getId(),
+                schedule.getRoom().getRoomName(),
+                schedule.getDate(),
+                schedule.getStartTime()
+        )).toList();
+    }
+
+
 }
+
+

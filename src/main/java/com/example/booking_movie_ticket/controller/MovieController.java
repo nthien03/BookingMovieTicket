@@ -2,9 +2,7 @@ package com.example.booking_movie_ticket.controller;
 
 
 import com.example.booking_movie_ticket.dto.request.MovieRequest;
-import com.example.booking_movie_ticket.dto.response.ApiResponse;
-import com.example.booking_movie_ticket.dto.response.MovieCreateResponse;
-import com.example.booking_movie_ticket.dto.response.MovieListResponse;
+import com.example.booking_movie_ticket.dto.response.*;
 import com.example.booking_movie_ticket.service.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/movies")
@@ -38,4 +36,23 @@ public class MovieController {
         return movieService.getAllMovies();
     }
 
+    @GetMapping("/{movieId}")
+    public ResponseEntity<ApiResponse<MovieDetailResponse>> getMovie(@PathVariable long movieId) {
+        return ResponseEntity.ok().body(
+                ApiResponse.<MovieDetailResponse>builder()
+                        .code(1000)
+                        .data(movieService.getMovieById(movieId))
+                        .build());
+    }
+
+    @GetMapping("/now-showing")
+    public ResponseEntity<ApiResponse<List<MovieListResponse>>> getNowShowing(
+            @RequestParam(value = "keyword", required = false) String keyword) {
+        return ResponseEntity.ok().body(
+                ApiResponse.<List<MovieListResponse>>builder()
+                        .code(1000)
+                        .data(movieService.searchNowShowing(keyword))
+                        .build());
+
+    }
 }

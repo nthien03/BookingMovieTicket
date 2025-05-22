@@ -112,7 +112,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(long userId, UserCreateRequest request) {
-
+// cung check existed
+        // cách check để trim được chuỗi
     }
 
     @Override

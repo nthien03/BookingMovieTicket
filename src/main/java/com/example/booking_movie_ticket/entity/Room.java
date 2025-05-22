@@ -2,6 +2,7 @@ package com.example.booking_movie_ticket.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -19,8 +20,10 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String roomName;
     private Boolean status;
+
 
     @ManyToOne
     @JoinColumn(name = "cinema_id", nullable = false)
@@ -29,4 +32,11 @@ public class Room {
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     @JsonIgnore
     List<Schedule> schedules;
+
+    @NotNull
+    private Integer total_row;
+    @NotNull
+    private Integer total_column;
+
+
 }
