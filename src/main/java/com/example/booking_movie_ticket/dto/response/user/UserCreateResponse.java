@@ -1,4 +1,4 @@
-package com.example.booking_movie_ticket.dto.response;
+package com.example.booking_movie_ticket.dto.response.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActorCreateResponse {
+public class UserCreateResponse {
     private Long id;
-    private String fullName;
+    private String username;
 }

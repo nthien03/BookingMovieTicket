@@ -3,8 +3,8 @@ package com.example.booking_movie_ticket.controller;
 
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
-import com.example.booking_movie_ticket.dto.response.UserCreateResponse;
-import com.example.booking_movie_ticket.dto.response.UserDetailResponse;
+import com.example.booking_movie_ticket.dto.response.user.UserCreateResponse;
+import com.example.booking_movie_ticket.dto.response.user.UserDetailResponse;
 import com.example.booking_movie_ticket.service.UserService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;

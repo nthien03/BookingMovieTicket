@@ -13,7 +13,6 @@ public enum ErrorCode {
     EMAIL_EXISTED(1004, "Email này đã được sử dụng", HttpStatus.BAD_REQUEST),
     PHONE_NUMBER_EXISTED(1005, "Số điện thoại đã được đăng ký", HttpStatus.BAD_REQUEST),
     DATA_UNIQUE(1006, "Thông tin đăng ký đã tồn tại", HttpStatus.BAD_REQUEST),
-
     USERNAME_BLANK(1007, "Tên đăng nhập không được bỏ trống", HttpStatus.BAD_REQUEST),
     FULL_NAME_BLANK(1008, "Họ tên không được bỏ trống", HttpStatus.BAD_REQUEST),
     EMAIL_BLANK(1009, "Email không được bỏ trống", HttpStatus.BAD_REQUEST),
@@ -30,6 +29,11 @@ public enum ErrorCode {
     INVALID_TOKEN_ERROR(1091, "Token không hợp lệ (hết hạn, sai định dạng, hoặc thiếu quyền truy cập)", HttpStatus.UNAUTHORIZED),
     REFRESH_TOKEN_NOT_PRESENT_IN_COOKIES(1092, "Refresh token không có trong cookies", HttpStatus.UNAUTHORIZED),
     INVALID_REFRESH_TOKEN(1093, "Refresh token không hợp lệ", HttpStatus.BAD_REQUEST),
+
+    ROLE_NAME_BLANK(1100, "Tên vai trò không được bỏ trống", HttpStatus.BAD_REQUEST),
+    PERMISSION_NAME_BLANK(1200, "Tên quyền hạn không được bỏ trống", HttpStatus.BAD_REQUEST),
+
+
 
 
     FILE_EMPTY(2001, "Vui lòng chọn file để tải lên", HttpStatus.BAD_REQUEST),

@@ -48,7 +48,7 @@ public class Movie {
     private Integer duration;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "movies" })
+    @JsonIgnoreProperties(value = {"movies"})
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))

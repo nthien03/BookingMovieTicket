@@ -2,11 +2,9 @@ package com.example.booking_movie_ticket.service;
 
 import com.example.booking_movie_ticket.dto.request.UserCreateRequest;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
-import com.example.booking_movie_ticket.dto.response.UserCreateResponse;
-import com.example.booking_movie_ticket.dto.response.UserDetailResponse;
+import com.example.booking_movie_ticket.dto.response.user.UserCreateResponse;
+import com.example.booking_movie_ticket.dto.response.user.UserDetailResponse;
 import com.example.booking_movie_ticket.entity.User;
-import com.example.booking_movie_ticket.exception.AppException;
-import com.example.booking_movie_ticket.exception.ErrorCode;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 

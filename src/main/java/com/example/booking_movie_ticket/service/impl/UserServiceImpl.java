@@ -2,6 +2,9 @@ package com.example.booking_movie_ticket.service.impl;
 
 import com.example.booking_movie_ticket.dto.request.UserCreateRequest;
 import com.example.booking_movie_ticket.dto.response.*;
+import com.example.booking_movie_ticket.dto.response.user.UserCreateResponse;
+import com.example.booking_movie_ticket.dto.response.user.UserDetailResponse;
+import com.example.booking_movie_ticket.dto.response.user.UserListResponse;
 import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.exception.AppException;
 import com.example.booking_movie_ticket.exception.ErrorCode;

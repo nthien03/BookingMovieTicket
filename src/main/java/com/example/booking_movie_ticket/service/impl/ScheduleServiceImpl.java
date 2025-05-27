@@ -1,10 +1,9 @@
 package com.example.booking_movie_ticket.service.impl;
 
 import com.example.booking_movie_ticket.dto.request.ScheduleRequest;
-import com.example.booking_movie_ticket.dto.response.RoomListResponse;
-import com.example.booking_movie_ticket.dto.response.ScheduleByMovieResponse;
-import com.example.booking_movie_ticket.dto.response.ScheduleCreateResponse;
-import com.example.booking_movie_ticket.dto.response.ScheduleListResponse;
+import com.example.booking_movie_ticket.dto.response.room.RoomListResponse;
+import com.example.booking_movie_ticket.dto.response.schedule.ScheduleByMovieResponse;
+import com.example.booking_movie_ticket.dto.response.schedule.ScheduleCreateResponse;
 import com.example.booking_movie_ticket.entity.Movie;
 import com.example.booking_movie_ticket.entity.Room;
 import com.example.booking_movie_ticket.entity.Schedule;

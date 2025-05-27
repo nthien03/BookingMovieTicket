@@ -1,10 +1,10 @@
 package com.example.booking_movie_ticket.service;
 
 import com.example.booking_movie_ticket.dto.request.MovieRequest;
-import com.example.booking_movie_ticket.dto.response.MovieCreateResponse;
-import com.example.booking_movie_ticket.dto.response.MovieDetailResponse;
-import com.example.booking_movie_ticket.dto.response.MovieListResponse;
-import com.example.booking_movie_ticket.dto.response.MovieResponse;
+import com.example.booking_movie_ticket.dto.response.movie.MovieCreateResponse;
+import com.example.booking_movie_ticket.dto.response.movie.MovieDetailResponse;
+import com.example.booking_movie_ticket.dto.response.movie.MovieListResponse;
+import com.example.booking_movie_ticket.dto.response.movie.MovieResponse;
 
 
 import java.util.List;

@@ -1,11 +1,7 @@
 package com.example.booking_movie_ticket.service;
 
 import com.example.booking_movie_ticket.dto.request.RoomRequest;
-import com.example.booking_movie_ticket.dto.response.PageResponse;
-import com.example.booking_movie_ticket.dto.response.RoomResponse;
-import com.example.booking_movie_ticket.entity.Room;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import com.example.booking_movie_ticket.dto.response.room.RoomResponse;
 
 import java.util.List;
 

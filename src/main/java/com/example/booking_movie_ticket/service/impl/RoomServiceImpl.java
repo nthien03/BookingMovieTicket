@@ -2,8 +2,7 @@ package com.example.booking_movie_ticket.service.impl;
 
 
 import com.example.booking_movie_ticket.dto.request.RoomRequest;
-import com.example.booking_movie_ticket.dto.response.PageResponse;
-import com.example.booking_movie_ticket.dto.response.RoomResponse;
+import com.example.booking_movie_ticket.dto.response.room.RoomResponse;
 import com.example.booking_movie_ticket.entity.Room;
 import com.example.booking_movie_ticket.exception.AppException;
 import com.example.booking_movie_ticket.exception.ErrorCode;
@@ -11,8 +10,6 @@ import com.example.booking_movie_ticket.repository.CinemaRepository;
 import com.example.booking_movie_ticket.repository.RoomRepository;
 import com.example.booking_movie_ticket.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

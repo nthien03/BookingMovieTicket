@@ -1,9 +1,6 @@
-package com.example.booking_movie_ticket.dto.response;
+package com.example.booking_movie_ticket.dto.response.user;
 
-import com.example.booking_movie_ticket.util.constant.GenderEnum;
 import lombok.*;
-
-import java.time.LocalDate;
 
 
 @Getter

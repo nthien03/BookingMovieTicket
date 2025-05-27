@@ -4,9 +4,8 @@ import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.FileUploadResponse;
 import com.example.booking_movie_ticket.exception.AppException;
 import com.example.booking_movie_ticket.exception.ErrorCode;
-import com.example.booking_movie_ticket.service.impl.FileServiceImpl;
+import com.example.booking_movie_ticket.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,9 +25,9 @@ public class FileController {
     @Value("${file.upload-file.base-uri}")
     private String baseURI;
 
-    private final FileServiceImpl fileService;
+    private final FileService fileService;
 
-    public FileController(FileServiceImpl fileService) {
+    public FileController(FileService fileService) {
         this.fileService = fileService;
     }
 

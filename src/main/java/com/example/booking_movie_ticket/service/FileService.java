@@ -1,4 +1,4 @@
-package com.example.booking_movie_ticket.service.impl;
+package com.example.booking_movie_ticket.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class FileServiceImpl {
+public class FileService {
 
     @Value("${file.upload-file.base-uri}")
     private String baseURI;

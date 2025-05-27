@@ -3,6 +3,9 @@ package com.example.booking_movie_ticket.controller;
 
 import com.example.booking_movie_ticket.dto.request.ScheduleRequest;
 import com.example.booking_movie_ticket.dto.response.*;
+import com.example.booking_movie_ticket.dto.response.room.RoomListResponse;
+import com.example.booking_movie_ticket.dto.response.schedule.ScheduleByMovieResponse;
+import com.example.booking_movie_ticket.dto.response.schedule.ScheduleCreateResponse;
 import com.example.booking_movie_ticket.entity.Schedule;
 import com.example.booking_movie_ticket.service.ScheduleService;
 import jakarta.validation.Valid;

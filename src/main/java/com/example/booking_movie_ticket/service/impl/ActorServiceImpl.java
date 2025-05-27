@@ -1,8 +1,8 @@
 package com.example.booking_movie_ticket.service.impl;
 
 import com.example.booking_movie_ticket.dto.request.ActorRequest;
-import com.example.booking_movie_ticket.dto.response.ActorCreateResponse;
-import com.example.booking_movie_ticket.dto.response.ActorResponse;
+import com.example.booking_movie_ticket.dto.response.actor.ActorCreateResponse;
+import com.example.booking_movie_ticket.dto.response.actor.ActorResponse;
 import com.example.booking_movie_ticket.dto.response.MetaPage;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.entity.Actor;

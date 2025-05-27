@@ -1,19 +1,10 @@
 package com.example.booking_movie_ticket.controller;
 
-import com.example.booking_movie_ticket.dto.request.GenreRequest;
 import com.example.booking_movie_ticket.dto.request.RoomRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
-import com.example.booking_movie_ticket.dto.response.GenreResponse;
-import com.example.booking_movie_ticket.dto.response.PageResponse;
-import com.example.booking_movie_ticket.dto.response.RoomResponse;
-import com.example.booking_movie_ticket.entity.Genre;
-import com.example.booking_movie_ticket.entity.Room;
-import com.example.booking_movie_ticket.service.GenreService;
+import com.example.booking_movie_ticket.dto.response.room.RoomResponse;
 import com.example.booking_movie_ticket.service.RoomService;
-import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

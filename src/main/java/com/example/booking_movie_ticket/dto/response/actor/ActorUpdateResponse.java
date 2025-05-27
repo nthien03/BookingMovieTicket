@@ -1,4 +1,4 @@
-package com.example.booking_movie_ticket.dto.response;
+package com.example.booking_movie_ticket.dto.response.actor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

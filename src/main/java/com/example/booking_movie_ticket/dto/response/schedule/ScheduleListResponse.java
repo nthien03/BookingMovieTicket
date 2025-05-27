@@ -1,8 +1,4 @@
-package com.example.booking_movie_ticket.dto.response;
-
-import com.example.booking_movie_ticket.entity.Movie;
-import com.example.booking_movie_ticket.entity.Room;
-import jakarta.persistence.*;
+package com.example.booking_movie_ticket.dto.response.schedule;
 
 import java.time.Instant;
 
