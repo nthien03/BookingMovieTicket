@@ -31,6 +31,11 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN(1093, "Refresh token không hợp lệ", HttpStatus.BAD_REQUEST),
 
     ROLE_NAME_BLANK(1100, "Tên vai trò không được bỏ trống", HttpStatus.BAD_REQUEST),
+    ROLE_EXISTED(1101, "Vai trò đã tồn tại", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_EXISTED(1102, "Vai trò không tồn tại", HttpStatus.NOT_FOUND),
+
+
+
     PERMISSION_NAME_BLANK(1200, "Tên quyền hạn không được bỏ trống", HttpStatus.BAD_REQUEST),
     API_PATH_BLANK(1201, "API_PATH không được bỏ trống", HttpStatus.BAD_REQUEST),
     METHOD_BLANK(1202, "METHOD không được bỏ trống", HttpStatus.BAD_REQUEST),

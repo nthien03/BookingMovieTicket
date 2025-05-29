@@ -1,13 +1,10 @@
 package com.example.booking_movie_ticket.controller;
 
 
-import com.example.booking_movie_ticket.dto.request.PermissionRequest;
 import com.example.booking_movie_ticket.dto.request.RoleRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
-import com.example.booking_movie_ticket.dto.response.user.PermissionDetailResponse;
 import com.example.booking_movie_ticket.dto.response.user.RoleDetailResponse;
-import com.example.booking_movie_ticket.entity.Permission;
 import com.example.booking_movie_ticket.entity.Role;
 import com.example.booking_movie_ticket.service.RoleService;
 import com.turkraft.springfilter.boot.Filter;

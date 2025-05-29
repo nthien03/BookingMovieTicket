@@ -21,6 +21,7 @@ public class RoleDetailResponse {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class PermissionInfo{
         private Long id;
         private String name;
