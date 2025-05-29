@@ -4,6 +4,9 @@ package com.example.booking_movie_ticket.controller;
 import com.example.booking_movie_ticket.dto.request.LoginRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.LoginResponse;
+import com.example.booking_movie_ticket.dto.response.user.RoleDetailResponse;
+import com.example.booking_movie_ticket.entity.Permission;
+import com.example.booking_movie_ticket.entity.Role;
 import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.exception.AppException;
 import com.example.booking_movie_ticket.exception.ErrorCode;
@@ -22,6 +25,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -39,6 +44,29 @@ public class AuthController {
         this.userService = userService;
     }
 
+    private RoleDetailResponse mapToRoleResponse(Role role) {
+
+        if (role == null) return null;
+
+        List<Permission> permissionList = role.getPermissions();
+        if (permissionList == null) permissionList = List.of(); // fallback empty
+
+        List<RoleDetailResponse.PermissionInfo> permissions = permissionList.stream()
+                .map(p -> RoleDetailResponse.PermissionInfo.builder()
+                        .id(p.getId())
+                        .name(p.getName())
+                        .build())
+                .toList();
+
+        return RoleDetailResponse.builder()
+                .id(role.getId())
+                .roleName(role.getRoleName())
+                .description(role.getDescription())
+                .permissions(permissions)
+                .status(role.getStatus())
+                .build();
+    }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
         //Nạp input gồm username/password vào Security
@@ -52,17 +80,25 @@ public class AuthController {
         // set thong tin ng dung dang nhap vao context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        LoginResponse loginResponse = new LoginResponse();
+
         User currentUser = this.userService.getUserByUsername(loginRequest.getUsername());
+
+        // mapper response
+        RoleDetailResponse role= this.mapToRoleResponse(currentUser.getRole());
 
         LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(
                 currentUser.getId(),
                 currentUser.getUsername(),
-                currentUser.getFullName());
+                currentUser.getFullName(),
+                role);
+
+        loginResponse.setUser(userLogin);
 
         // create access token
-        String access_token = this.jwtService.createAccessToken(authentication.getName(), userLogin);
+        String access_token = this.jwtService.createAccessToken(authentication.getName(), loginResponse);
 
-        LoginResponse loginResponse = new LoginResponse(access_token, userLogin);
+        loginResponse.setAccessToken(access_token);
 
         // create refresh token
         String refresh_token = this.jwtService.createRefreshToken(loginRequest.getUsername(), loginResponse);
@@ -95,10 +131,14 @@ public class AuthController {
         String username = SecurityUtil.getCurrentUserLogin().orElse("");
         User currentUser = this.userService.getUserByUsername(username);
 
+        // mapper response
+        RoleDetailResponse role= this.mapToRoleResponse(currentUser.getRole());
+
         LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(
                 currentUser.getId(),
                 currentUser.getUsername(),
-                currentUser.getFullName());
+                currentUser.getFullName(),
+                role);
 
         return ResponseEntity.ok(
                 ApiResponse.<LoginResponse.UserGetAccount>builder()
@@ -118,18 +158,24 @@ public class AuthController {
         String username = decodedToken.getSubject();
 
         // check user by token and username
-
         User currentUser = userService.getUserByRefreshTokenAndUsername(refresh_token, username);
+
+        LoginResponse loginResponse = new LoginResponse();
+
+        // mapper response
+        RoleDetailResponse role= this.mapToRoleResponse(currentUser.getRole());
 
         LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(
                 currentUser.getId(),
                 currentUser.getUsername(),
-                currentUser.getFullName());
+                currentUser.getFullName(),
+                role);
 
+        loginResponse.setUser(userLogin);
         // create access token
-        String access_token = this.jwtService.createAccessToken(username, userLogin);
+        String access_token = this.jwtService.createAccessToken(username, loginResponse);
 
-        LoginResponse loginResponse = new LoginResponse(access_token, userLogin);
+        loginResponse.setAccessToken(access_token);
 
         // create refresh token
         String new_refresh_token = this.jwtService.createRefreshToken(username, loginResponse);
@@ -187,4 +233,6 @@ public class AuthController {
 
 
     }
+
+
 }

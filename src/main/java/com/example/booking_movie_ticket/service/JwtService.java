@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 public interface JwtService {
 
-    String createAccessToken(String username, LoginResponse.UserLogin userLogin);
+    String createAccessToken(String username, LoginResponse loginResponse);
 
     String createRefreshToken(String usernamme, LoginResponse loginResponse);
 

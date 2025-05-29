@@ -38,7 +38,12 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String createAccessToken(String username, LoginResponse.UserLogin userLogin) {
+    public String createAccessToken(String username, LoginResponse loginResponse) {
+
+        LoginResponse.UserInsideToken userInsideToken = new LoginResponse.UserInsideToken();
+        userInsideToken.setId(loginResponse.getUser().getId());
+        userInsideToken.setUsername(loginResponse.getUser().getUsername());
+        userInsideToken.setFullName(loginResponse.getUser().getFullName());
 
         Instant now = Instant.now();
         Instant validity = now.plus(this.accessTokenExpiration, ChronoUnit.SECONDS);
@@ -53,7 +58,7 @@ public class JwtServiceImpl implements JwtService {
                 .issuedAt(now)
                 .expiresAt(validity)
                 .subject(username)
-                .claim("user", userLogin)
+                .claim("user", userInsideToken)
                 .claim("permission", listAuthority)
                 .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
@@ -63,6 +68,13 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String createRefreshToken(String usernamme, LoginResponse loginResponse) {
+
+        LoginResponse.UserInsideToken userInsideToken = new LoginResponse.UserInsideToken();
+        userInsideToken.setId(loginResponse.getUser().getId());
+        userInsideToken.setUsername(loginResponse.getUser().getUsername());
+        userInsideToken.setFullName(loginResponse.getUser().getFullName());
+
+
         Instant now = Instant.now();
         Instant validity = now.plus(this.refreshTokenExpiration, ChronoUnit.SECONDS);
 
@@ -71,7 +83,7 @@ public class JwtServiceImpl implements JwtService {
                 .issuedAt(now)
                 .expiresAt(validity)
                 .subject(usernamme)
-                .claim("user", loginResponse.getUser())
+                .claim("user", userInsideToken)
                 .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
 
