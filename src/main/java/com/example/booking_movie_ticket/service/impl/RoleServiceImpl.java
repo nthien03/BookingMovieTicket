@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = Role.builder()
                 .roleName(request.getRoleName().trim())
                 .description(request.getDescription())
-                .status(true)
+                .status(request.getStatus())
                 .permissions(dbPermissions)
                 .build();
 

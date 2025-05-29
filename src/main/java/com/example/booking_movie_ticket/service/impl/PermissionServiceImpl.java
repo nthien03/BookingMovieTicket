@@ -42,7 +42,7 @@ public class PermissionServiceImpl implements PermissionService {
                 .apiPath(request.getApiPath().trim())
                 .method(request.getMethod().trim())
                 .module(request.getModule().trim())
-                .status(true)
+                .status(request.getStatus())
                 .build();
         Permission saved = permissionRepository.save(permission);
         return saved.getId();

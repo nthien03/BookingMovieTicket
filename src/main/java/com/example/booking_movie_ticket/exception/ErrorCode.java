@@ -24,6 +24,7 @@ public enum ErrorCode {
     EMAIL_INVALID(1015, "Email không hợp lệ", HttpStatus.BAD_REQUEST),
     PHONE_NUMBER_INVALID(1016, "Số điện thoại không hợp lệ", HttpStatus.BAD_REQUEST),
     BIRTHDAY_INVALID(1017, "Ngày sinh không hợp lệ", HttpStatus.BAD_REQUEST),
+    ROLE_NULL(1018, "Vai trò không được bỏ trống", HttpStatus.BAD_REQUEST),
 
     INVALID_LOGIN_CREDENTIALS_ERROR(1090, "Thông tin đăng nhập không chính xác", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN_ERROR(1091, "Token không hợp lệ (hết hạn, sai định dạng, hoặc thiếu quyền truy cập)", HttpStatus.UNAUTHORIZED),

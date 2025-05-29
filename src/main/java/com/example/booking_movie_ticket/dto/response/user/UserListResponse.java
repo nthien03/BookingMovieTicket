@@ -20,4 +20,8 @@ public class UserListResponse {
 
     private String phoneNumber;
 
+    private Boolean status;
+
+    UserDetailResponse.RoleInfoResponse role;
+
 }

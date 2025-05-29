@@ -1,7 +1,9 @@
 package com.example.booking_movie_ticket.entity;
 
+import com.example.booking_movie_ticket.util.SecurityUtil;
 import com.example.booking_movie_ticket.util.constant.GenderEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
@@ -20,17 +22,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String fullName;
 
     @Column(unique = true)
+    @NotNull
     private String username;
 
     @Column(unique = true)
+    @NotNull
     private String email;
 
     @Column(unique = true)
+    @NotNull
     private String phoneNumber;
+
+    @NotNull
     private String password;
+
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
@@ -46,7 +55,21 @@ public class User {
     @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 
 
+    @PrePersist
+    public void handleBeforeCreate(){
+        this.createdBy = SecurityUtil.getCurrentUserLogin().orElse("");
+        this.createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void handleBeforeUpdate(){
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().orElse("");
+        this.updatedAt = Instant.now();
+    }
 }

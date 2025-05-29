@@ -31,4 +31,16 @@ public class UserDetailResponse {
 
     private Boolean status;
 
+    RoleInfoResponse role;
+
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RoleInfoResponse{
+        private Long id;
+        private String roleName;
+    }
+
+
 }

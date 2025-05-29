@@ -1,5 +1,6 @@
 package com.example.booking_movie_ticket.repository;
 
+import com.example.booking_movie_ticket.entity.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,10 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     boolean existsByPhoneNumber(String phoneNumber);
     boolean existsByUsername(String username);
     Optional<User> findByRefreshTokenAndUsername(String refreshToken, String username);
+
+    Optional<User> findByEmailOrPhoneNumberOrUsername(
+            String email, String phoneNumber, String username
+    );
 
 
 }

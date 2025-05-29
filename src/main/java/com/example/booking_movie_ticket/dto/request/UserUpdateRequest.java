@@ -13,19 +13,11 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-public class UserCreateRequest {
+public class UserUpdateRequest {
 
     @NotBlank(message = "FULL_NAME_BLANK")
     @Size(max = 255, message = "DATA_TOO_LONG")
     private String fullName;
-
-    @NotBlank(message = "USERNAME_BLANK")
-    @Size(min = 4, max = 30, message = "USERNAME_LENGTH_INVALID")
-    private String username;
-
-    @Size(min = 6, max = 100, message = "PASSWORD_LENGTH_INVALID")
-    @NotBlank(message = "PASSWORD_BLANK")
-    private String password;
 
     @Email(message = "EMAIL_INVALID")
     @NotBlank(message = "EMAIL_BLANK")
