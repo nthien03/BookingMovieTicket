@@ -32,7 +32,11 @@ public enum ErrorCode {
 
     ROLE_NAME_BLANK(1100, "Tên vai trò không được bỏ trống", HttpStatus.BAD_REQUEST),
     PERMISSION_NAME_BLANK(1200, "Tên quyền hạn không được bỏ trống", HttpStatus.BAD_REQUEST),
-
+    API_PATH_BLANK(1201, "API_PATH không được bỏ trống", HttpStatus.BAD_REQUEST),
+    METHOD_BLANK(1202, "METHOD không được bỏ trống", HttpStatus.BAD_REQUEST),
+    MODULE_BLANK(1203, "MODULE không được bỏ trống", HttpStatus.BAD_REQUEST),
+    PERMISSION_EXISTED(1204, "Quyền hạn đã tồn tại", HttpStatus.BAD_REQUEST),
+    PERMISSION_NOT_EXISTED(1205, "Quyền hạn không tồn tại", HttpStatus.NOT_FOUND),
 
 
 

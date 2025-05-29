@@ -82,10 +82,20 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void updateGenre(long genreId, GenreRequest request) {
-        if (genreRepository.existsByName(request.getName())) {
+
+        // check exist by id
+        Genre genre = this.genreRepository.findById(genreId)
+                .orElseThrow(() -> new AppException(ErrorCode.GENRE_NOT_EXISTED));
+
+//        // Kiểm tra nếu tên mới đã tồn tại ở genre khác
+//        Optional<Genre> genreWithSameName = genreRepository.findByName(request.getName());
+//        if (genreWithSameName.isPresent() && !genreWithSameName.get().getId().equals(genreId)) {
+//            throw new AppException(ErrorCode.GENRE_EXISTED);
+//        }
+
+        if (genreRepository.existsByName(request.getName().trim())) {
             throw new AppException(ErrorCode.GENRE_EXISTED);
         }
-        Genre genre = this.genreRepository.findById(genreId).orElseThrow(() -> new AppException(ErrorCode.GENRE_NOT_EXISTED));
         genre.setName(request.getName());
         genre.setDescription(request.getDescription());
         genre.setStatus(request.getStatus());
