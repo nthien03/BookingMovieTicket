@@ -70,7 +70,8 @@ public class MovieServiceImpl implements MovieService {
                         movie.getMovieName(),
                         movie.getPoster(),
                         movie.getDuration(),
-                        movie.getReleaseDate()))
+                        movie.getReleaseDate(),
+                        movie.getStatus()))
                 .collect(Collectors.toList());
     }
 
@@ -114,7 +115,8 @@ public class MovieServiceImpl implements MovieService {
                         movie.getMovieName(),
                         movie.getPoster(),
                         movie.getDuration(),
-                        movie.getReleaseDate()))
+                        movie.getReleaseDate(),
+                        movie.getStatus()))
                 .toList();
     }
 

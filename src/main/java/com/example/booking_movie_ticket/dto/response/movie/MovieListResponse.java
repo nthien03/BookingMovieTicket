@@ -15,4 +15,5 @@ public class MovieListResponse {
     private String poster;
     private Integer duration;
     private Instant releaseDate;
+    private Boolean status;
 }

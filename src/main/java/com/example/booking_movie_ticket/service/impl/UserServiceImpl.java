@@ -6,7 +6,6 @@ import com.example.booking_movie_ticket.dto.response.*;
 import com.example.booking_movie_ticket.dto.response.user.UserCreateResponse;
 import com.example.booking_movie_ticket.dto.response.user.UserDetailResponse;
 import com.example.booking_movie_ticket.dto.response.user.UserListResponse;
-import com.example.booking_movie_ticket.entity.Permission;
 import com.example.booking_movie_ticket.entity.Role;
 import com.example.booking_movie_ticket.entity.User;
 import com.example.booking_movie_ticket.exception.AppException;
@@ -23,9 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

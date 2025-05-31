@@ -4,9 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
-
 @Getter
 @Setter
 public class PermissionRequest {
@@ -22,8 +19,6 @@ public class PermissionRequest {
 
     @NotBlank(message = "MODULE_BLANK")
     private String module;
-
-    private List<Long> roles;
 
     private Boolean status;
 }

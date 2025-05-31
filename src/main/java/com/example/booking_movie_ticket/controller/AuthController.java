@@ -2,9 +2,11 @@ package com.example.booking_movie_ticket.controller;
 
 
 import com.example.booking_movie_ticket.dto.request.LoginRequest;
+import com.example.booking_movie_ticket.dto.request.UserCreateRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.LoginResponse;
 import com.example.booking_movie_ticket.dto.response.user.RoleDetailResponse;
+import com.example.booking_movie_ticket.dto.response.user.UserCreateResponse;
 import com.example.booking_movie_ticket.entity.Permission;
 import com.example.booking_movie_ticket.entity.Role;
 import com.example.booking_movie_ticket.entity.User;
@@ -16,6 +18,7 @@ import com.example.booking_movie_ticket.util.SecurityUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,6 +46,21 @@ public class AuthController {
         this.jwtService = jwtService;
         this.userService = userService;
     }
+
+
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<UserCreateResponse>> register(@Valid @RequestBody UserCreateRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.<UserCreateResponse>builder()
+                        .code(1000)
+                        .message("User created successfully")
+                        .data(userService.createUser(request))
+                        .build());
+
+    }
+
 
     private RoleDetailResponse mapToRoleResponse(Role role) {
 

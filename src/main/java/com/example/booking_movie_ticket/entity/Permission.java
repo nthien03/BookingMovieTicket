@@ -45,6 +45,14 @@ public class Permission {
     private String createdBy;
     private String updatedBy;
 
+    public Permission(String name, String apiPath, String method, String module, Boolean status) {
+        this.name = name;
+        this.apiPath = apiPath;
+        this.method = method;
+        this.module = module;
+        this.status = status;
+    }
+
     @PrePersist
     public void handleBeforeCreate(){
         this.createdBy = SecurityUtil.getCurrentUserLogin().orElse("");

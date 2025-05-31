@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
-    List<Schedule> findByMovieIdAndStatusTrue(Long movieId);
+    //List<Schedule> findByMovieIdAndStatusTrue(Long movieId);
+    List<Schedule> findByMovieIdAndStatusTrueAndDateGreaterThanEqual(Long movieId, Instant date);
 
 
     @Query("""

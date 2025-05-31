@@ -38,5 +38,9 @@ public class Room {
     @NotNull
     private Integer total_column;
 
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<Seat> seats;
+
 
 }

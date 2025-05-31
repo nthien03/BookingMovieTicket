@@ -124,7 +124,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<ScheduleByMovieResponse> getSchedulesByMovieId(Long movieId) {
-        List<Schedule> schedules = scheduleRepository.findByMovieIdAndStatusTrue(movieId);
+        List<Schedule> schedules = scheduleRepository.findByMovieIdAndStatusTrueAndDateGreaterThanEqual(movieId, Instant.now());
         return schedules.stream().map(schedule -> new ScheduleByMovieResponse(
                 schedule.getId(),
                 schedule.getRoom().getRoomName(),
