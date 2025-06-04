@@ -31,6 +31,8 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_PRESENT_IN_COOKIES(1092, "Refresh token không có trong cookies", HttpStatus.UNAUTHORIZED),
     INVALID_REFRESH_TOKEN(1093, "Refresh token không hợp lệ", HttpStatus.BAD_REQUEST),
 
+    NOT_LOGIN(1094, "Not logged in", HttpStatus.UNAUTHORIZED),
+
     ROLE_NAME_BLANK(1100, "Tên vai trò không được bỏ trống", HttpStatus.BAD_REQUEST),
     ROLE_EXISTED(1101, "Vai trò đã tồn tại", HttpStatus.BAD_REQUEST),
     ROLE_NOT_EXISTED(1102, "Vai trò không tồn tại", HttpStatus.NOT_FOUND),
@@ -69,6 +71,19 @@ public enum ErrorCode {
 
     ROOM_NOT_FREE(4000,"Phòng chiếu đã được sử dụng vào thời gian bạn chọn", HttpStatus.BAD_REQUEST),
     ROOM_EXISTED(4001, "Phòng chiếu đã tồn tại", HttpStatus.BAD_REQUEST),
+    ROOM_NOT_EXISTED(4002, "Phòng chiếu không tồn tại", HttpStatus.NOT_FOUND),
+
+    SCHEDULE_NOT_EXISTED(4100, "Lịch chiếu không tồn tại", HttpStatus.NOT_FOUND),
+
+    SEAT_TYPE_EXISTED(4200, "Loại ghế đã tồn tại", HttpStatus.BAD_REQUEST),
+    SEAT_TYPE_NOT_EXISTED(4201, "Loại ghế không tồn tại", HttpStatus.NOT_FOUND),
+
+    SEAT_EXISTED(4300, "Ghế đã tồn tại", HttpStatus.BAD_REQUEST),
+    SEAT_NOT_EXISTED(4301, "Ghế không tồn tại", HttpStatus.NOT_FOUND),
+
+    BOOKING_NOT_EXISTED(5000, "Đơn hàng không tồn tại", HttpStatus.NOT_FOUND),
+    PAYMENT_NOT_EXISTED(5000, "Payment không tồn tại", HttpStatus.NOT_FOUND),
+
 
     DATA_VALIDATION_ERROR(9000, "Dữ liệu đầu vào không hợp lệ", HttpStatus.BAD_REQUEST),
     INVALID_DATA_TYPE(9001, "Dữ liệu truyền vào không đúng kiểu dữ liệu", HttpStatus.BAD_REQUEST),

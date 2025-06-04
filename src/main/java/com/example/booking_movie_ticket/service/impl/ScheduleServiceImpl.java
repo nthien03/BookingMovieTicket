@@ -4,6 +4,7 @@ import com.example.booking_movie_ticket.dto.request.ScheduleRequest;
 import com.example.booking_movie_ticket.dto.response.room.RoomListResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleByMovieResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleCreateResponse;
+import com.example.booking_movie_ticket.dto.response.seat.SeatDetailResponse;
 import com.example.booking_movie_ticket.entity.Movie;
 import com.example.booking_movie_ticket.entity.Room;
 import com.example.booking_movie_ticket.entity.Schedule;
@@ -17,6 +18,9 @@ import com.example.booking_movie_ticket.service.ScheduleService;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -124,10 +128,22 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<ScheduleByMovieResponse> getSchedulesByMovieId(Long movieId) {
-        List<Schedule> schedules = scheduleRepository.findByMovieIdAndStatusTrueAndDateGreaterThanEqual(movieId, Instant.now());
+        ZoneId vnZone = ZoneId.of("Asia/Ho_Chi_Minh");
+
+        // Lấy đầu ngày hôm nay ở VN (00:00)
+        ZonedDateTime vnStartOfToday = LocalDate.now(vnZone).atStartOfDay(vnZone);
+
+        // Chuyển thành Instant (UTC)
+        Instant startOfTodayInstant = vnStartOfToday.toInstant();
+
+
+        List<Schedule> schedules = scheduleRepository.findByMovieIdAndStatusTrueAndDateGreaterThanEqual(movieId, startOfTodayInstant);
         return schedules.stream().map(schedule -> new ScheduleByMovieResponse(
                 schedule.getId(),
-                schedule.getRoom().getRoomName(),
+                new ScheduleByMovieResponse.RoomInSchedule(
+                        schedule.getRoom().getId(),
+                        schedule.getRoom().getRoomName()
+                ),
                 schedule.getDate(),
                 schedule.getStartTime()
         )).toList();

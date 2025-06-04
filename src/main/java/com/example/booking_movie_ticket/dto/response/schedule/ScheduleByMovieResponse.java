@@ -11,7 +11,16 @@ import java.time.Instant;
 @NoArgsConstructor
 public class ScheduleByMovieResponse {
     private Long id;
-    private String roomName;
+    private RoomInSchedule room;
     private Instant date;
     private Instant startTime;
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RoomInSchedule {
+        private Long id;
+        private String roomName;
+    }
 }
