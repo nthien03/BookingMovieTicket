@@ -9,6 +9,8 @@ import com.example.booking_movie_ticket.dto.response.schedule.ScheduleCreateResp
 import com.example.booking_movie_ticket.entity.Schedule;
 import com.example.booking_movie_ticket.service.ScheduleService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +39,16 @@ public class ScheduleController {
                 );
     }
     @GetMapping
-    public List<Schedule> getAllSchedules() {
-        return scheduleService.getAllSchedules();
+    public ResponseEntity<ApiResponse<PageResponse>> getAllSchedules(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant date,
+            @RequestParam(required = false) String movieName,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok().body(
+                ApiResponse.<PageResponse>builder()
+                        .code(1000)
+                        .data(scheduleService.getSchedules(date,movieName, pageable))
+                        .build());
     }
 
     @GetMapping("/available-rooms")

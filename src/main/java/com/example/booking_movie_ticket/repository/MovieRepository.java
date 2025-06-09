@@ -50,4 +50,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
     List<Movie> searchNowShowingByName(@Param("now") Instant now,
                                        @Param("kw") String keyword);
 
+    List<Movie> findByReleaseDateAfterAndStatusIsTrue(Instant now);
 }

@@ -13,6 +13,7 @@ import com.example.booking_movie_ticket.repository.ScheduleRepository;
 import com.example.booking_movie_ticket.repository.SeatRepository;
 import com.example.booking_movie_ticket.repository.TicketRepository;
 import com.example.booking_movie_ticket.service.TicketService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -70,6 +71,24 @@ public class TicketServiceImpl implements TicketService {
                         .bookingId(t.getBooking().getId())
                         .createdAt(t.getCreatedAt())
                         .build()).toList();
+    }
+
+    @Transactional
+    public void updateTicketStatusByBookingId(Long bookingId, Boolean newStatus) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new AppException(ErrorCode.BOOKING_NOT_EXISTED));
+
+        List<Ticket> tickets = booking.getTickets();
+//        if (tickets == null || tickets.isEmpty()) {
+//            throw new RuntimeException("No tickets found for booking id: " + bookingId);
+//        }
+        if (tickets != null && !tickets.isEmpty()) {
+            for (Ticket ticket : tickets) {
+                ticket.setStatus(newStatus);
+            }
+
+            ticketRepository.saveAll(tickets);}
+
     }
 
 

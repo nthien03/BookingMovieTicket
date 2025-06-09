@@ -1,6 +1,8 @@
 package com.example.booking_movie_ticket.repository;
 
 import com.example.booking_movie_ticket.entity.Schedule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +13,16 @@ import java.util.List;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+
+
+    @Query("SELECT s FROM Schedule s " +
+            "WHERE (:date IS NULL OR s.date = :date) " +
+            "AND (:movieName IS NULL OR s.movie.movieName LIKE %:movieName%) ")
+    Page<Schedule> findSchedulesByDateAndMovieName(
+            @Param("date") Instant date,
+            @Param("movieName") String movieName,
+            Pageable pageable);
+
 
     //List<Schedule> findByMovieIdAndStatusTrue(Long movieId);
     List<Schedule> findByMovieIdAndStatusTrueAndDateGreaterThanEqual(Long movieId, Instant date);

@@ -69,25 +69,31 @@ public enum ErrorCode {
     GENRE_NOT_EXISTED(3201, "Thể loại không tồn tại", HttpStatus.NOT_FOUND),
     GENRE_EXISTED(3202, "Thể loại này đã tồn tại", HttpStatus.BAD_REQUEST),
 
-    ROOM_NOT_FREE(4000,"Phòng chiếu đã được sử dụng vào thời gian bạn chọn", HttpStatus.BAD_REQUEST),
-    ROOM_EXISTED(4001, "Phòng chiếu đã tồn tại", HttpStatus.BAD_REQUEST),
-    ROOM_NOT_EXISTED(4002, "Phòng chiếu không tồn tại", HttpStatus.NOT_FOUND),
+    ROOM_NOT_FREE(3300,"Phòng chiếu đã được sử dụng vào thời gian bạn chọn", HttpStatus.BAD_REQUEST),
+    ROOM_EXISTED(3301, "Phòng chiếu đã tồn tại", HttpStatus.BAD_REQUEST),
+    ROOM_NOT_EXISTED(3302, "Phòng chiếu không tồn tại", HttpStatus.NOT_FOUND),
 
-    SCHEDULE_NOT_EXISTED(4100, "Lịch chiếu không tồn tại", HttpStatus.NOT_FOUND),
+    SCHEDULE_NOT_EXISTED(3400, "Lịch chiếu không tồn tại", HttpStatus.NOT_FOUND),
 
-    SEAT_TYPE_EXISTED(4200, "Loại ghế đã tồn tại", HttpStatus.BAD_REQUEST),
-    SEAT_TYPE_NOT_EXISTED(4201, "Loại ghế không tồn tại", HttpStatus.NOT_FOUND),
+    SEAT_TYPE_EXISTED(3500, "Loại ghế đã tồn tại", HttpStatus.BAD_REQUEST),
+    SEAT_TYPE_NOT_EXISTED(3501, "Loại ghế không tồn tại", HttpStatus.NOT_FOUND),
 
-    SEAT_EXISTED(4300, "Ghế đã tồn tại", HttpStatus.BAD_REQUEST),
-    SEAT_NOT_EXISTED(4301, "Ghế không tồn tại", HttpStatus.NOT_FOUND),
+    SEAT_EXISTED(3600, "Ghế đã tồn tại", HttpStatus.BAD_REQUEST),
+    SEAT_NOT_EXISTED(3601, "Ghế không tồn tại", HttpStatus.NOT_FOUND),
+    SEAT_INVALID(3602, "Ghế ngồi không khả dụng", HttpStatus.BAD_REQUEST),
 
-    BOOKING_NOT_EXISTED(5000, "Đơn hàng không tồn tại", HttpStatus.NOT_FOUND),
-    PAYMENT_NOT_EXISTED(5000, "Payment không tồn tại", HttpStatus.NOT_FOUND),
+    BOOKING_NOT_EXISTED(3700, "Đơn hàng không tồn tại", HttpStatus.NOT_FOUND),
+    BOOKING_CODE_FAILED(3701, "Không thể tạo mã booking duy nhất sau nhiều lần thử", HttpStatus.BAD_REQUEST),
+    BOOKING_HAS_NO_TICKET(3702, "Booking không chứa ticket nào", HttpStatus.BAD_REQUEST),
+
+    PAYMENT_FAILED(5000, "Thanh toán thất bại", HttpStatus.BAD_REQUEST),
+    PAYMENT_NOT_EXISTED(5001, "Payment không tồn tại", HttpStatus.NOT_FOUND),
 
 
     DATA_VALIDATION_ERROR(9000, "Dữ liệu đầu vào không hợp lệ", HttpStatus.BAD_REQUEST),
     INVALID_DATA_TYPE(9001, "Dữ liệu truyền vào không đúng kiểu dữ liệu", HttpStatus.BAD_REQUEST),
     DATA_TOO_LONG(9002, "Dữ liệu nhập vào vượt quá độ dài cho phép", HttpStatus.BAD_REQUEST),
+    MISSING_REQUIRED_PARAMETERS(9003, "Thiếu tham số bắt buộc", HttpStatus.BAD_REQUEST),
 
     UNCATEGORIZED_EXCEPTION(9999, "Đã xảy ra lỗi", HttpStatus.INTERNAL_SERVER_ERROR),
 

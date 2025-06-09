@@ -6,6 +6,7 @@ import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatByRoomResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatDetailResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatResponse;
+import com.example.booking_movie_ticket.dto.response.seat.SeatStatusResponse;
 import com.example.booking_movie_ticket.entity.Room;
 import com.example.booking_movie_ticket.entity.Seat;
 import com.example.booking_movie_ticket.entity.SeatType;
@@ -15,6 +16,7 @@ import com.example.booking_movie_ticket.repository.RoomRepository;
 import com.example.booking_movie_ticket.repository.SeatRepository;
 import com.example.booking_movie_ticket.repository.SeatTypeRepository;
 import com.example.booking_movie_ticket.service.SeatService;
+import com.example.booking_movie_ticket.util.constant.BookingStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -160,6 +162,16 @@ public class SeatServiceImpl implements SeatService {
                         .build())
                 .build()
         ).toList();
+    }
+
+    @Override
+    public List<SeatStatusResponse> getSeatStatuses(Long roomId, Long scheduleId) {
+        List<Integer> holdStatusValues = List.of(
+                BookingStatus.BOOKED.getValue(),
+                BookingStatus.PAYMENT_PROCESSING.getValue(),
+                BookingStatus.COMPLETED.getValue()
+        );
+        return seatRepository.findSeatStatusesByRoomAndSchedule(roomId, scheduleId, holdStatusValues);
     }
 }
 

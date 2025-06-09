@@ -14,7 +14,7 @@ public class BookingResponse {
     private Long totalPrice;
     private String bookingCode;
     private Integer amount;
-    private Boolean status;
+    private Integer status;
     private Instant bookingDate;
     private UserInBooking user;
 

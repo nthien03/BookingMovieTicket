@@ -32,7 +32,9 @@ public class Booking {
     @NotNull
     private Integer amount;
 
-    private Boolean status;
+    private String paymentMethod;
+
+    private Integer status;
 
     // Quan hệ với User
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,8 +45,5 @@ public class Booking {
     @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
     private List<Ticket> tickets;
 
-    // Quan hệ 1-1 với Payment
-    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    private Payment payment;
 }
 

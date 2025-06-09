@@ -5,6 +5,7 @@ import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatByRoomResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatDetailResponse;
+import com.example.booking_movie_ticket.dto.response.seat.SeatStatusResponse;
 import com.example.booking_movie_ticket.entity.Seat;
 import com.example.booking_movie_ticket.service.SeatService;
 import com.turkraft.springfilter.boot.Filter;
@@ -70,13 +71,13 @@ public class SeatController {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO seats (seat_row, seat_number, price, status, seat_type_id, room_id)\nVALUES\n");
 
-        char[] rows = {'A','B','C','D','E','F','G','H','I','J','K'};
+        char[] rows = {'A','B','C','D','E','F','G','H','I','J'};
         for (char row : rows) {
-            int seatTypeId = (row == 'A' || row == 'B' || row == 'K') ? 2 : 1;
+            int seatTypeId = (row == 'A' || row == 'B' || row == 'J') ? 2 : 1;
             int price = seatTypeId == 2 ? 80000 : 120000;
 
-            for (int col = 1; col <= 12; col++) {
-                sb.append(String.format("('%c', %d, %d, true, %d, 3),\n", row, col, price, seatTypeId));
+            for (int col = 1; col <= 15; col++) {
+                sb.append(String.format("('%c', %d, %d, true, %d, 1),\n", row, col, price, seatTypeId));
             }
         }
 
@@ -92,6 +93,19 @@ public class SeatController {
                         .data(seats)
                         .build()
         );
+    }
+
+    @GetMapping("/availability")
+    public ResponseEntity<ApiResponse<List<SeatStatusResponse>>> getSeatStatuses(
+            @RequestParam Long roomId,
+            @RequestParam Long scheduleId
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<List<SeatStatusResponse>>builder()
+                        .code(1000)
+                        .data(seatService.getSeatStatuses(roomId, scheduleId))
+                        .build());
     }
 
 }

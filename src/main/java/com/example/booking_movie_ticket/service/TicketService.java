@@ -8,5 +8,7 @@ import java.util.List;
 public interface TicketService {
     Long createTicket(TicketRequest request);
     List<TicketResponse> getTicketsByBooking(Long bookingId);
+
+    void updateTicketStatusByBookingId(Long bookingId, Boolean newStatus);
 }
 

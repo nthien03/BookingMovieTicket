@@ -30,18 +30,17 @@ public class Ticket {
 
     private Boolean status;
 
-    // Quan hệ với Schedule
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
     // Quan hệ với Seat
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
     // Quan hệ với Booking
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "booking_id")
     private Booking booking;
 }

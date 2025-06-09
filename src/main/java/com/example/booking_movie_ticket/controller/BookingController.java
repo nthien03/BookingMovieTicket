@@ -3,6 +3,7 @@ package com.example.booking_movie_ticket.controller;
 import com.example.booking_movie_ticket.dto.request.BookingRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
+import com.example.booking_movie_ticket.dto.response.booking.BookingCreateResponse;
 import com.example.booking_movie_ticket.dto.response.booking.BookingDetailResponse;
 import com.example.booking_movie_ticket.dto.response.booking.BookingResponse;
 import com.example.booking_movie_ticket.entity.Booking;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/bookings")
@@ -35,9 +37,9 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Long>> create(@Valid @RequestBody BookingRequest request) {
+    public ResponseEntity<ApiResponse<BookingCreateResponse>> create(@Valid @RequestBody BookingRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                ApiResponse.<Long>builder()
+                ApiResponse.<BookingCreateResponse>builder()
                         .code(1000)
                         .message("Created")
                         .data(bookingService.createBooking(request)).build()
@@ -91,6 +93,20 @@ public class BookingController {
                 .data(bookingService.getBookingHistoryByUser(userId,movieName,pageable))
                 .build());
     }
+
+//    @PostMapping("/check-seats/schedule/{scheduleId}")
+//    public ResponseEntity<ApiResponse<Map<Long, Boolean>>> checkSeats(
+//            @PathVariable Long scheduleId,
+//            @RequestBody List<Long> seatIds
+//    ){
+//        Map<Long, Boolean> result = bookingService.checkSeatsAvailability(seatIds,scheduleId);
+//
+//        return ResponseEntity.ok(ApiResponse.<Map<Long, Boolean>>builder()
+//                .code(1000)
+//                .data(result)
+//                .build());
+//    }
+
 
 
 //    @PutMapping("/{id}/status")

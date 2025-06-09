@@ -6,8 +6,13 @@ import com.example.booking_movie_ticket.dto.response.*;
 import com.example.booking_movie_ticket.dto.response.movie.MovieCreateResponse;
 import com.example.booking_movie_ticket.dto.response.movie.MovieDetailResponse;
 import com.example.booking_movie_ticket.dto.response.movie.MovieListResponse;
+import com.example.booking_movie_ticket.entity.Movie;
+import com.example.booking_movie_ticket.entity.Permission;
 import com.example.booking_movie_ticket.service.MovieService;
+import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +39,17 @@ public class MovieController {
                         .data(movieService.createMovie(request)).build()
                 );
     }
+
     @GetMapping
-    public List<MovieListResponse> getAllMovies() {
-        return movieService.getAllMovies();
+    public ResponseEntity<ApiResponse<PageResponse>> getAllMovies(
+            @Filter Specification<Movie> spec,
+            Pageable pageable) {
+
+        return ResponseEntity.ok().body(
+                ApiResponse.<PageResponse>builder()
+                        .code(1000)
+                        .data(movieService.getAllMovies(spec, pageable))
+                        .build());
     }
 
     @GetMapping("/{movieId}")
@@ -57,5 +70,14 @@ public class MovieController {
                         .data(movieService.searchNowShowing(keyword))
                         .build());
 
+    }
+
+    @GetMapping("/coming-soon")
+    public ResponseEntity<ApiResponse<List<MovieListResponse>>> getComingSoonMovies() {
+        return ResponseEntity.ok().body(
+                ApiResponse.<List<MovieListResponse>>builder()
+                        .code(1000)
+                        .data(movieService.getComingSoonMovies())
+                        .build());
     }
 }

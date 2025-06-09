@@ -1,6 +1,8 @@
 package com.example.booking_movie_ticket.service.impl;
 
 import com.example.booking_movie_ticket.dto.request.ScheduleRequest;
+import com.example.booking_movie_ticket.dto.response.MetaPage;
+import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.dto.response.room.RoomListResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleByMovieResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleCreateResponse;
@@ -15,6 +17,8 @@ import com.example.booking_movie_ticket.repository.MovieRepository;
 import com.example.booking_movie_ticket.repository.RoomRepository;
 import com.example.booking_movie_ticket.repository.ScheduleRepository;
 import com.example.booking_movie_ticket.service.ScheduleService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -73,6 +77,23 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
+    }
+
+    @Override
+    public PageResponse getSchedules(Instant date, String movieName, Pageable pageable) {
+        Page<Schedule> schedulePage = scheduleRepository.findSchedulesByDateAndMovieName(date, movieName, pageable);
+
+        MetaPage meta = MetaPage.builder()
+                .page(pageable.getPageNumber() + 1)
+                .pageSize(pageable.getPageSize())
+                .pages(schedulePage.getTotalPages())
+                .total(schedulePage.getTotalElements())
+                .build();
+
+        return PageResponse.builder()
+                .meta(meta)
+                .result(schedulePage.getContent())
+                .build();
     }
 
 

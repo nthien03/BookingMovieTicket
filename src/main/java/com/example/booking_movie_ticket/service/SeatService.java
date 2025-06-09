@@ -4,6 +4,7 @@ import com.example.booking_movie_ticket.dto.request.SeatRequest;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatByRoomResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatDetailResponse;
+import com.example.booking_movie_ticket.dto.response.seat.SeatStatusResponse;
 import com.example.booking_movie_ticket.entity.Seat;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,5 +17,8 @@ public interface SeatService {
     SeatDetailResponse getSeat(long id);
     void updateSeat(long id, SeatRequest request);
     List<SeatByRoomResponse> getSeatsByRoom(Long roomId);
+    List<SeatStatusResponse> getSeatStatuses(Long roomId, Long scheduleId);
+
+
 }
 

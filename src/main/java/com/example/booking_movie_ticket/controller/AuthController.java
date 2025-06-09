@@ -147,6 +147,7 @@ public class AuthController {
     @GetMapping("/account")
     public ResponseEntity<ApiResponse<LoginResponse.UserGetAccount>> getAccount() {
         String username = SecurityUtil.getCurrentUserLogin().orElse("");
+
         User currentUser = this.userService.getUserByUsername(username);
 
         // mapper response

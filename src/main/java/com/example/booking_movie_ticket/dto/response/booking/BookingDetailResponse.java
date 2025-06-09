@@ -15,10 +15,23 @@ public class BookingDetailResponse {
     private Long totalPrice;
     private String bookingCode;
     private Integer amount;
-    private Boolean status;
+    private Integer status;
     private Instant bookingDate;
-    private Long userId;
+    private String movieName;
+    private String roomName;
+    private Instant date;
+    private Instant startTime;
+    private UserInfoInBooking user;
+    private List<TicketInBookingResponse> tickets;
+    private String paymentMethod;
 
-    private List<TicketResponse> tickets;
-    private PaymentResponse payment;
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserInfoInBooking {
+        private Long id;
+        private String username;
+        private String fullName;
+    }
 }
