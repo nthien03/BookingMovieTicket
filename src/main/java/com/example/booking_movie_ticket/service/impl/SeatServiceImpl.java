@@ -173,5 +173,15 @@ public class SeatServiceImpl implements SeatService {
         );
         return seatRepository.findSeatStatusesByRoomAndSchedule(roomId, scheduleId, holdStatusValues);
     }
+
+    @Override
+    public List<Long> getBookedSeatsFromList(List<Long> seatIds, Long scheduleId) {
+        List<Integer> holdStatusValues = List.of(
+                BookingStatus.BOOKED.getValue(),
+                BookingStatus.PAYMENT_PROCESSING.getValue(),
+                BookingStatus.COMPLETED.getValue()
+        );
+        return seatRepository.getBookedSeatsFromList(seatIds,scheduleId, holdStatusValues);
+    }
 }
 

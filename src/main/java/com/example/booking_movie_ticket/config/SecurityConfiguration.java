@@ -44,7 +44,7 @@ public class SecurityConfiguration {
 
         String[] whiteList = {
                 "/", "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/register",
-                "/storage/**", "/api/v1/movies/now-showing"
+                "/storage/**", "/api/v1/movies/now-showing", "/api/v1/payments/vn-pay-callback"
         };
 
         http
@@ -53,8 +53,10 @@ public class SecurityConfiguration {
                         authz
                                 .requestMatchers(whiteList).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/movies/**").permitAll()
-                                                 .anyRequest().permitAll())
-                                //.anyRequest().authenticated())
+                                .requestMatchers(HttpMethod.GET, "/api/v1/schedules/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/seat-types/**").permitAll()
+                                //                 .anyRequest().permitAll())
+                                .anyRequest().authenticated())
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(customAuthenticationEntryPoint))
 //                .exceptionHandling(

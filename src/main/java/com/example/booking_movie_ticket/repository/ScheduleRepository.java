@@ -25,7 +25,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
 
     //List<Schedule> findByMovieIdAndStatusTrue(Long movieId);
-    List<Schedule> findByMovieIdAndStatusTrueAndDateGreaterThanEqual(Long movieId, Instant date);
+    List<Schedule> findByMovieIdAndStatusTrueAndStartTimeGreaterThanEqual(Long movieId, Instant now);
+
 
 
     @Query("""
@@ -52,5 +53,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             @Param("startTime") Instant startTime,
             @Param("endTime") Instant endTime
     );
+
+    @Query("SELECT s FROM Schedule s " +
+            "WHERE s.date BETWEEN :fromDate AND :toDate " +
+            "AND s.startTime > :now " +
+            "AND s.status = true")
+    List<Schedule> findSchedulesInRange(@Param("fromDate") Instant fromDate,
+                                        @Param("toDate") Instant toDate,
+                                        @Param("now") Instant now);
+
 
 }

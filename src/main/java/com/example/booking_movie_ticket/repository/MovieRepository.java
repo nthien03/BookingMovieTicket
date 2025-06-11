@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecificationExecutor<Movie> {
@@ -43,12 +44,24 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
               FROM Schedule sch
               WHERE sch.movie = m
                 AND sch.status = TRUE
-                AND sch.startTime >= :now
+                AND sch.startTime > :now
          )
          AND (:kw IS NULL OR LOWER(m.movieName) LIKE LOWER(CONCAT('%', :kw, '%')))
+       ORDER BY m.releaseDate DESC
        """)
     List<Movie> searchNowShowingByName(@Param("now") Instant now,
                                        @Param("kw") String keyword);
 
-    List<Movie> findByReleaseDateAfterAndStatusIsTrue(Instant now);
+
+    List<Movie> findByReleaseDateAfterAndStatusIsTrueOrderByReleaseDateAsc(Instant now);
+
+    @Query("SELECT DISTINCT s.movie FROM Schedule s " +
+            "WHERE s.date BETWEEN :fromDate AND :toDate " +
+            "AND s.startTime > :now " +
+            "AND s.status = true")
+    List<Movie> findMoviesWithUpcomingSchedules(@Param("fromDate") Instant fromDate,
+                                                            @Param("toDate") Instant toDate,
+                                                            @Param("now") Instant now);
+
+    Optional<Movie> findByMovieName(String movieName);
 }

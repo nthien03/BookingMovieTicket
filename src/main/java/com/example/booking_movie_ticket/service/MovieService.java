@@ -12,17 +12,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface MovieService {
 
     MovieCreateResponse createMovie(MovieRequest request);
     PageResponse getAllMovies(Specification<Movie> spec, Pageable pageable);
     MovieDetailResponse getMovieById(long movieId);
-    MovieResponse updateMovie(long movieId, MovieRequest request);
+    void updateMovie(long movieId, MovieRequest request);
 
     List<MovieListResponse> searchNowShowing(String keyword);
     List<MovieListResponse> getComingSoonMovies();
+    Map<LocalDate, List<MovieListResponse>> getUpcomingMoviesWithSchedules();
+
     MovieResponse changeStatus(long movieid);
 
 }

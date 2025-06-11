@@ -6,6 +6,7 @@ import com.example.booking_movie_ticket.dto.response.PageResponse;
 import com.example.booking_movie_ticket.dto.response.room.RoomListResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleByMovieResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleCreateResponse;
+import com.example.booking_movie_ticket.dto.response.schedule.ScheduleListResponse;
 import com.example.booking_movie_ticket.dto.response.seat.SeatDetailResponse;
 import com.example.booking_movie_ticket.entity.Movie;
 import com.example.booking_movie_ticket.entity.Room;
@@ -43,23 +44,36 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public void updateSchedule(Long scheduleId, ScheduleRequest request) {
-//        Schedule schedule = scheduleRepository.findById(scheduleId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Schedule not found with id: " + scheduleId));
-//
-//        Movie movie = movieRepository.findById(request.getMovieId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + request.getMovieId()));
-//
-//        Room room = roomRepository.findById(request.getRoomId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + request.getRoomId()));
-//
-//        schedule.setMovie(movie);
-//        schedule.setRoom(room);
-//        schedule.setDate(request.getDate());
-//        schedule.setStartTime(request.getStartTime());
-//        schedule.setEndTime(request.getEndTime());
-//        schedule.setStatus(request.getStatus());
-//
-//        scheduleRepository.save(schedule);
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_NOT_EXISTED));
+
+        Movie movie = movieRepository.findById(request.getMovieId())
+                .orElseThrow(() -> new AppException(ErrorCode.MOVIE_NOT_EXISTED));
+
+        Room room = roomRepository.findById(request.getRoomId())
+                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_EXISTED));
+
+        // Check trùng phòng và thời gian
+        boolean isConflict = scheduleRepository.existsByRoomAndDateAndTimeOverlap(
+                room.getId(),
+                request.getDate(),
+                request.getStartTime(),
+                request.getEndTime()
+        );
+
+        if (isConflict) {
+            //throw new RuntimeException("Phòng chiếu đã được sử dụng vào thời gian bạn chọn");
+            throw new AppException(ErrorCode.ROOM_NOT_FREE);
+        }
+        schedule.setMovie(movie);
+        schedule.setRoom(room);
+        schedule.setDate(request.getDate());
+        schedule.setStartTime(request.getStartTime());
+        schedule.setBufferTime(request.getBufferTime());
+        schedule.setEndTime(request.getEndTime());
+        schedule.setStatus(request.getStatus());
+
+        scheduleRepository.save(schedule);
     }
 
     //    @Override
@@ -83,6 +97,22 @@ public class ScheduleServiceImpl implements ScheduleService {
     public PageResponse getSchedules(Instant date, String movieName, Pageable pageable) {
         Page<Schedule> schedulePage = scheduleRepository.findSchedulesByDateAndMovieName(date, movieName, pageable);
 
+        List<ScheduleListResponse> schList = schedulePage.getContent()
+                .stream().map(
+                        schedule -> ScheduleListResponse.builder()
+                                .id(schedule.getId())
+                                .movie(new ScheduleListResponse.MovieInSchedule(
+                                        schedule.getMovie().getId(),
+                                        schedule.getMovie().getMovieName()))
+                                .room(new ScheduleListResponse.RoomInSchedule(schedule.getRoom().getId(),
+                                        schedule.getRoom().getRoomName()))
+                                .date(schedule.getDate())
+                                .startTime(schedule.getStartTime())
+                                .bufferTime(schedule.getBufferTime())
+                                .endTime(schedule.getEndTime())
+                                .status(schedule.getStatus())
+                                .build()
+                ).toList();
         MetaPage meta = MetaPage.builder()
                 .page(pageable.getPageNumber() + 1)
                 .pageSize(pageable.getPageSize())
@@ -92,7 +122,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         return PageResponse.builder()
                 .meta(meta)
-                .result(schedulePage.getContent())
+                .result(schList)
                 .build();
     }
 
@@ -133,6 +163,29 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleCreateResponse(savedSchedule.getId());
     }
 
+    @Override
+    public ScheduleListResponse getScheduleById(long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_NOT_EXISTED));
+
+        return ScheduleListResponse.builder()
+                .id(schedule.getId())
+                .movie(new ScheduleListResponse.MovieInSchedule(
+                        schedule.getMovie().getId(),
+                        schedule.getMovie().getMovieName()))
+                .room(new ScheduleListResponse.RoomInSchedule(schedule.getRoom().getId(),
+                        schedule.getRoom().getRoomName()))
+                .date(schedule.getDate())
+                .startTime(schedule.getStartTime())
+                .bufferTime(schedule.getBufferTime())
+                .endTime(schedule.getEndTime())
+                .status(schedule.getStatus())
+                .build();
+
+    }
+
+
+
 
     @Override
     public List<RoomListResponse> getAvailableRooms(Instant startTime, Instant endTime) {
@@ -157,8 +210,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         // Chuyển thành Instant (UTC)
         Instant startOfTodayInstant = vnStartOfToday.toInstant();
 
+        Instant now = Instant.now();
 
-        List<Schedule> schedules = scheduleRepository.findByMovieIdAndStatusTrueAndDateGreaterThanEqual(movieId, startOfTodayInstant);
+        List<Schedule> schedules = scheduleRepository.findByMovieIdAndStatusTrueAndStartTimeGreaterThanEqual(movieId, now);
         return schedules.stream().map(schedule -> new ScheduleByMovieResponse(
                 schedule.getId(),
                 new ScheduleByMovieResponse.RoomInSchedule(

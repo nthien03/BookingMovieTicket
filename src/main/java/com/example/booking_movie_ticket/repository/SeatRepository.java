@@ -48,9 +48,24 @@ public interface SeatRepository extends JpaRepository<Seat, Long>, JpaSpecificat
                 ORDER BY s.seatRow, s.seatNumber
             """)
     List<SeatStatusResponse> findSeatStatusesByRoomAndSchedule(
-            Long roomId,
-            Long scheduleId,
+            @Param("roomId") Long roomId,
+            @Param("scheduleId") Long scheduleId,
             @Param("bookingStatusValues") List<Integer> bookingStatusValues);
+
+    // Kiểm tra nhiều ghế có bị hold không
+    @Query("""
+    SELECT t.seat.id
+    FROM Ticket t
+    JOIN t.booking b
+    WHERE t.seat.id IN :seatIds
+      AND t.schedule.id = :scheduleId
+      AND b.status IN :bookingStatusValues
+    """)
+    List<Long> getBookedSeatsFromList(@Param("seatIds") List<Long> seatIds,
+                                      @Param("scheduleId") Long scheduleId,
+                                      @Param("bookingStatusValues") List<Integer> bookingStatusValues);
+
+
 
 //    @Query("SELECT new com.example.booking_movie_ticket.dto.response.seat.SeatStatusResponse(" +
 //            "s.id, s.seatRow, s.seatNumber, " +

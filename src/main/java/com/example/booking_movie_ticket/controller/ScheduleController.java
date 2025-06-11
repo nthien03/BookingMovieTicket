@@ -6,10 +6,12 @@ import com.example.booking_movie_ticket.dto.response.*;
 import com.example.booking_movie_ticket.dto.response.room.RoomListResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleByMovieResponse;
 import com.example.booking_movie_ticket.dto.response.schedule.ScheduleCreateResponse;
-import com.example.booking_movie_ticket.entity.Schedule;
+import com.example.booking_movie_ticket.dto.response.schedule.ScheduleListResponse;
 import com.example.booking_movie_ticket.service.ScheduleService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +40,19 @@ public class ScheduleController {
                         .data(scheduleService.createSchedule(request)).build()
                 );
     }
+
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse>> getAllSchedules(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant date,
             @RequestParam(required = false) String movieName,
             Pageable pageable
     ) {
+        // Ép sort nếu FE không truyền sort
+
+        if (!pageable.getSort().isSorted()) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                    Sort.by(Sort.Direction.DESC, "startTime"));
+        }
         return ResponseEntity.ok().body(
                 ApiResponse.<PageResponse>builder()
                         .code(1000)
@@ -69,5 +78,16 @@ public class ScheduleController {
                         .build()
         );
 
+    }
+
+    @GetMapping("/{scheduleId}")
+    public ResponseEntity<ApiResponse<ScheduleListResponse>> getScheduleById(
+            @PathVariable long scheduleId) {
+
+        return ResponseEntity.ok().body(
+                ApiResponse.<ScheduleListResponse>builder()
+                        .code(1000)
+                        .data(scheduleService.getScheduleById(scheduleId))
+                        .build());
     }
 }

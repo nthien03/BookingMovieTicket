@@ -166,7 +166,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Scheduled(fixedRate = 60000)
     public void expireOldPendingOrders() {
-        Instant expire = Instant.now().minusSeconds(6 * 60);
+        Instant expire = Instant.now().minusSeconds(8 * 60);
         int updated = bookingRepository.updateStatusForExpiredBookings(
                 BookingStatus.PAYMENT_FAILED.getValue(),
                 BookingStatus.PAYMENT_PROCESSING.getValue(),

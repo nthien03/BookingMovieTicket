@@ -19,6 +19,8 @@ public interface SeatService {
     List<SeatByRoomResponse> getSeatsByRoom(Long roomId);
     List<SeatStatusResponse> getSeatStatuses(Long roomId, Long scheduleId);
 
+    List<Long> getBookedSeatsFromList(List<Long> seatIds, Long scheduleId);
+
 
 }
 

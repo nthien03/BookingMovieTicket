@@ -48,6 +48,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpec
                                        @Param("expire") Instant expire);
 
 
+
+
 //    // Kiểm tra 1 ghế đã được đặt cho schedule cụ thể chưa
 //    @Query("""
 //        SELECT COUNT(b) > 0
@@ -70,17 +72,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpec
 //        """)
 //    List<Long> getBookedSeatIds(@Param("scheduleId") Long scheduleId);
 
-//    // Kiểm tra nhiều ghế cùng lúc
-//    @Query("""
-//        SELECT t.seatId
-//        FROM Booking b
-//        JOIN b.tickets t
-//        WHERE t.seatId IN :seatIds
-//        AND t.scheduleId = :scheduleId
-//        AND b.status IN (1, 4)
-//        """)
-//    List<Long> getBookedSeatsFromList(@Param("seatIds") List<Long> seatIds,
-//                                      @Param("scheduleId") Long scheduleId);
+
 
 
 }

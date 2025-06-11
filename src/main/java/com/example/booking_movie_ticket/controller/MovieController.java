@@ -7,7 +7,6 @@ import com.example.booking_movie_ticket.dto.response.movie.MovieCreateResponse;
 import com.example.booking_movie_ticket.dto.response.movie.MovieDetailResponse;
 import com.example.booking_movie_ticket.dto.response.movie.MovieListResponse;
 import com.example.booking_movie_ticket.entity.Movie;
-import com.example.booking_movie_ticket.entity.Permission;
 import com.example.booking_movie_ticket.service.MovieService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
@@ -17,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -60,6 +61,18 @@ public class MovieController {
                         .data(movieService.getMovieById(movieId))
                         .build());
     }
+    @PutMapping("/{movieId}")
+    public ResponseEntity<ApiResponse<Void>> updateMovie(
+            @PathVariable long movieId,
+            @Valid @RequestBody MovieRequest request) {
+
+        this.movieService.updateMovie(movieId, request);
+
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .code(1000)
+                .message("Movie updated successfully")
+                .build());
+    }
 
     @GetMapping("/now-showing")
     public ResponseEntity<ApiResponse<List<MovieListResponse>>> getNowShowing(
@@ -79,5 +92,15 @@ public class MovieController {
                         .code(1000)
                         .data(movieService.getComingSoonMovies())
                         .build());
+    }
+
+    @GetMapping("/group-by-schedule")
+    public ResponseEntity<ApiResponse<Map<LocalDate, List<MovieListResponse>>>> getGroupedMoviesBySchedule() {
+        return ResponseEntity.ok().body(
+                ApiResponse.<Map<LocalDate, List<MovieListResponse>>>builder()
+                        .code(1000)
+                        .data(movieService.getUpcomingMoviesWithSchedules())
+                        .build());
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.booking_movie_ticket.controller;
 
+import com.example.booking_movie_ticket.dto.request.CheckSeatsHoldRequest;
 import com.example.booking_movie_ticket.dto.request.SeatRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
@@ -105,6 +106,17 @@ public class SeatController {
                 ApiResponse.<List<SeatStatusResponse>>builder()
                         .code(1000)
                         .data(seatService.getSeatStatuses(roomId, scheduleId))
+                        .build());
+    }
+    @PostMapping("/check-hold")
+    public ResponseEntity<ApiResponse<List<Long>>> getBookedSeatsFromList(
+            @Valid @RequestBody CheckSeatsHoldRequest checkSeatsHoldRequest) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<List<Long>>builder()
+                        .code(1000)
+                        .data(seatService.getBookedSeatsFromList(checkSeatsHoldRequest.getSeatIds(),
+                                checkSeatsHoldRequest.getScheduleId()))
                         .build());
     }
 

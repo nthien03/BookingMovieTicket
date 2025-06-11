@@ -17,7 +17,7 @@ public class MovieDetailResponse {
 
     private String director;
 
-    private List<String> actors;
+    private List<ActorInMovie> actors;
 
     private String description;
 
@@ -27,7 +27,7 @@ public class MovieDetailResponse {
 
     private Integer duration;
 
-    private List<String> genres;
+    private List<GenreInMovie> genres;
 
     private Instant releaseDate;
 
@@ -35,5 +35,21 @@ public class MovieDetailResponse {
 
     private Boolean status;
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ActorInMovie {
+        private Long id;
+        private String fullName;
+    }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GenreInMovie {
+        private Long id;
+        private String name;
+    }
 }
