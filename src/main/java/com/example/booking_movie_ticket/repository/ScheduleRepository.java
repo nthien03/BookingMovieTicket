@@ -28,7 +28,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findByMovieIdAndStatusTrueAndStartTimeGreaterThanEqual(Long movieId, Instant now);
 
 
-
     @Query("""
                 SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END
                 FROM Schedule s
@@ -44,6 +43,25 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             @Param("startTime") Instant startTime,
             @Param("endTime") Instant endTime
     );
+
+    @Query("""
+                SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END
+                FROM Schedule s
+                WHERE s.room.id = :roomId
+                  AND s.date = :date
+                  AND s.id <> :excludeId
+                  AND (
+                        (s.startTime < :endTime AND s.endTime > :startTime)
+                  )
+            """)
+    boolean existsByRoomAndDateAndTimeOverlapExceptId(
+            @Param("roomId") Long roomId,
+            @Param("date") Instant date,
+            @Param("startTime") Instant startTime,
+            @Param("endTime") Instant endTime,
+            @Param("excludeId") Long excludeId
+    );
+
 
     @Query("""
                 SELECT s.room.id FROM Schedule s

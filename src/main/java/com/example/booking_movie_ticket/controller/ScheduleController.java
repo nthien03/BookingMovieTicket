@@ -1,6 +1,7 @@
 package com.example.booking_movie_ticket.controller;
 
 
+import com.example.booking_movie_ticket.dto.request.RoomRequest;
 import com.example.booking_movie_ticket.dto.request.ScheduleRequest;
 import com.example.booking_movie_ticket.dto.response.*;
 import com.example.booking_movie_ticket.dto.response.room.RoomListResponse;
@@ -89,5 +90,17 @@ public class ScheduleController {
                         .code(1000)
                         .data(scheduleService.getScheduleById(scheduleId))
                         .build());
+    }
+    @PutMapping("/{scheduleId}")
+    public ResponseEntity<ApiResponse<Void>> updateSchedule(
+            @PathVariable long scheduleId,
+            @Valid @RequestBody ScheduleRequest request) {
+
+        this.scheduleService.updateSchedule(scheduleId, request);
+
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .code(1000)
+                .message("Schedule updated successfully")
+                .build());
     }
 }

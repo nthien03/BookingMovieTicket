@@ -2,6 +2,7 @@ package com.example.booking_movie_ticket.controller;
 
 
 import com.example.booking_movie_ticket.dto.request.LoginRequest;
+import com.example.booking_movie_ticket.dto.request.RegisterRequest;
 import com.example.booking_movie_ticket.dto.request.UserCreateRequest;
 import com.example.booking_movie_ticket.dto.response.ApiResponse;
 import com.example.booking_movie_ticket.dto.response.LoginResponse;
@@ -49,14 +50,14 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserCreateResponse>> register(@Valid @RequestBody UserCreateRequest request) {
+    public ResponseEntity<ApiResponse<UserCreateResponse>> register(@Valid @RequestBody RegisterRequest request) {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.<UserCreateResponse>builder()
                         .code(1000)
                         .message("User created successfully")
-                        .data(userService.createUser(request))
+                        .data(userService.register(request))
                         .build());
 
     }

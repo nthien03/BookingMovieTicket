@@ -1,5 +1,6 @@
 package com.example.booking_movie_ticket.service.impl;
 
+import com.example.booking_movie_ticket.dto.request.RegisterRequest;
 import com.example.booking_movie_ticket.dto.request.UserCreateRequest;
 import com.example.booking_movie_ticket.dto.request.UserUpdateRequest;
 import com.example.booking_movie_ticket.dto.response.*;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
     }
 
-    public UserCreateResponse register(UserCreateRequest request) {
+    public UserCreateResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail().trim())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
@@ -61,9 +62,6 @@ public class UserServiceImpl implements UserService {
                 .email(request.getEmail().trim())
                 .phoneNumber(request.getPhoneNumber().trim())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .birthday(request.getBirthday())
-                .gender(request.getGender())
-                .address(request.getAddress())
                 .role(role)
                 .status(true)
                 .build();

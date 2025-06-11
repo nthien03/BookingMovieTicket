@@ -30,8 +30,5 @@ public class RegisterRequest {
     @NotBlank(message = "PHONE_NUMBER_BLANK")
     private String phoneNumber;
 
-    @Past(message = "BIRTHDAY_INVALID")
-    @NotNull(message = "BIRTHDAY_BLANK")
-    private LocalDate birthday;
 
 }

@@ -26,6 +26,7 @@ public class ScheduleListResponse {
     public static class RoomInSchedule {
         private Long id;
         private String roomName;
+
     }
 
     @Getter
@@ -35,5 +36,6 @@ public class ScheduleListResponse {
     public static class MovieInSchedule {
         private Long id;
         private String movieName;
+        private Integer duration;
     }
 }

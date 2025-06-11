@@ -54,11 +54,12 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_EXISTED));
 
         // Check trùng phòng và thời gian
-        boolean isConflict = scheduleRepository.existsByRoomAndDateAndTimeOverlap(
+        boolean isConflict = scheduleRepository.existsByRoomAndDateAndTimeOverlapExceptId(
                 room.getId(),
                 request.getDate(),
                 request.getStartTime(),
-                request.getEndTime()
+                request.getEndTime(),
+                scheduleId
         );
 
         if (isConflict) {
@@ -103,7 +104,8 @@ public class ScheduleServiceImpl implements ScheduleService {
                                 .id(schedule.getId())
                                 .movie(new ScheduleListResponse.MovieInSchedule(
                                         schedule.getMovie().getId(),
-                                        schedule.getMovie().getMovieName()))
+                                        schedule.getMovie().getMovieName(),
+                                        schedule.getMovie().getDuration()))
                                 .room(new ScheduleListResponse.RoomInSchedule(schedule.getRoom().getId(),
                                         schedule.getRoom().getRoomName()))
                                 .date(schedule.getDate())
@@ -172,9 +174,10 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .id(schedule.getId())
                 .movie(new ScheduleListResponse.MovieInSchedule(
                         schedule.getMovie().getId(),
-                        schedule.getMovie().getMovieName()))
+                        schedule.getMovie().getMovieName(),
+                        schedule.getMovie().getDuration()))
                 .room(new ScheduleListResponse.RoomInSchedule(schedule.getRoom().getId(),
-                        schedule.getRoom().getRoomName()))
+                schedule.getRoom().getRoomName()))
                 .date(schedule.getDate())
                 .startTime(schedule.getStartTime())
                 .bufferTime(schedule.getBufferTime())
@@ -183,8 +186,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .build();
 
     }
-
-
 
 
     @Override

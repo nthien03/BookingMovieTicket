@@ -1,5 +1,6 @@
 package com.example.booking_movie_ticket.service;
 
+import com.example.booking_movie_ticket.dto.request.RegisterRequest;
 import com.example.booking_movie_ticket.dto.request.UserCreateRequest;
 import com.example.booking_movie_ticket.dto.request.UserUpdateRequest;
 import com.example.booking_movie_ticket.dto.response.PageResponse;
@@ -11,7 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public interface UserService {
 
-    UserCreateResponse register(UserCreateRequest request);
+    UserCreateResponse register(RegisterRequest request);
 
     UserCreateResponse createUser(UserCreateRequest request);
 
